@@ -1,0 +1,6 @@
+@BikeRegister.WebAPI_HostAddress = http://localhost:1390
+
+GET {{BikeRegister.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

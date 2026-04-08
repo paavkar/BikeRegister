@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="BikeRegister/BikeRegister.Application/BikeRegister.Application.csproj" />
+  <Project Path="BikeRegister/BikeRegister.Domain/BikeRegister.Domain.csproj" />
+  <Project Path="BikeRegister/BikeRegister.Infrastructure/BikeRegister.Infrastructure.csproj" />
+  <Project Path="BikeRegister/BikeRegister.SharedKernel/BikeRegister.SharedKernel.csproj" />
+  <Project Path="BikeRegister/BikeRegister.WebAPI/BikeRegister.WebAPI.csproj" />
+</Solution>
