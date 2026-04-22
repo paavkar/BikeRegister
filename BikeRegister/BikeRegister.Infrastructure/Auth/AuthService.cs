@@ -34,6 +34,7 @@ namespace BikeRegister.Infrastructure.Auth
             {
                 UserName = registerDto.UserName,
                 Email = registerDto.Email,
+                Name = string.Empty
             };
 
             IdentityResult result = await userManager.CreateAsync(user, registerDto.Password);
@@ -65,13 +66,44 @@ namespace BikeRegister.Infrastructure.Auth
             return await GenerateAuthResultAsync(user, platform);
         }
 
+        public async Task<AuthResult> FinishProfileSetupAsync(FinishProfileSetupDto dto, string userId)
+        {
+            ApplicationUser? user = await userManager.FindByIdAsync(userId);
+
+            if (user is null)
+            {
+                return new AuthResult
+                {
+                    Succeeded = false,
+                    Errors = [localizer["UserNotFound"]]
+                };
+            }
+
+            user.Name = dto.Name;
+            user.PhoneNumber = dto.PhoneNumber;
+            user.ProfilePhotoUrl = dto.ProfilePhotoUrl;
+
+            IdentityResult result = await userManager.UpdateAsync(user);
+
+            return !result.Succeeded
+                ? new AuthResult
+                {
+                    Succeeded = false,
+                    Errors = result.Errors.Select(e => localizer[e.Code].ToString())
+                }
+                : new AuthResult
+                {
+                    Succeeded = true
+                };
+        }
+
         public async Task<AuthResult> LoginAsync(LoginDto loginDto, string platform)
         {
             ApplicationUser? user = string.IsNullOrWhiteSpace(loginDto.UserName)
                 ? await userManager.FindByEmailAsync(loginDto.Email)
                 : await userManager.FindByNameAsync(loginDto.UserName);
 
-            if (user == null || !await userManager.CheckPasswordAsync(user, loginDto.Password))
+            if (user is null || !await userManager.CheckPasswordAsync(user, loginDto.Password))
             {
                 return new AuthResult
                 {
@@ -251,7 +283,7 @@ namespace BikeRegister.Infrastructure.Auth
         public async Task<AuthResult> RefreshTokenAsync(string refreshToken)
         {
             RefreshTokenInfo tokenInfo = await cache.GetOrCreateAsync<RefreshTokenInfo>(refreshToken, async entry => null);
-            if (tokenInfo == null || tokenInfo.ExpiresAt < DateTimeOffset.UtcNow)
+            if (tokenInfo is null || tokenInfo.ExpiresAt < DateTimeOffset.UtcNow)
             {
                 return new AuthResult
                 {
@@ -261,7 +293,7 @@ namespace BikeRegister.Infrastructure.Auth
             }
 
             ApplicationUser? user = await userManager.FindByIdAsync(tokenInfo.UserId);
-            if (user == null)
+            if (user is null)
             {
                 return new AuthResult
                 {

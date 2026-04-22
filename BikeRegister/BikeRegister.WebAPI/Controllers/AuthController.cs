@@ -47,6 +47,18 @@ namespace BikeRegister.WebAPI.Controllers
             return Ok(result);
         }
 
+        [Authorize]
+        [HttpPost("finish-profile-setup")]
+        public async Task<IActionResult> FinishProfileSetup(FinishProfileSetupDto finishDto)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+            AuthResult result = await authService.FinishProfileSetupAsync(finishDto, userId);
+
+            return !result.Succeeded
+                ? BadRequest(result)
+                : Ok(result);
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {

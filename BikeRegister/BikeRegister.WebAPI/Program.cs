@@ -3,7 +3,9 @@ using BikeRegister.Application;
 using BikeRegister.Domain.Users;
 using BikeRegister.Infrastructure;
 using BikeRegister.Infrastructure.Persistence;
+using BikeRegister.WebAPI.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +16,16 @@ using System.Text;
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+// Data Protection configuration
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo("Keys"))
+    .SetApplicationName(builder.Configuration["Jwt:Issuer"] ?? throw new ArgumentNullException("Jwt:Issuer"));
+
+// Custom implementations for Identity data protection (created by Gemini 3)
+builder.Services.AddScoped<IPersonalDataProtector, CustomDataProtector>();
+builder.Services.AddScoped<ILookupProtector, CustomLookupProtector>();
+builder.Services.AddScoped<ILookupProtectorKeyRing, CustomKeyRing>();
 
 // Add services to the container.
 builder.Logging.ClearProviders();
@@ -74,6 +86,9 @@ builder.Services.AddIdentityCore<ApplicationUser>()
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
+    // Encrypts PersonalData in the database
+    options.Stores.ProtectPersonalData = true;
+
     // Password settings.
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
