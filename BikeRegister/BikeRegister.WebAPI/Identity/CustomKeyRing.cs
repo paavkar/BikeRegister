@@ -5,7 +5,11 @@ namespace BikeRegister.WebAPI.Identity
     public class CustomKeyRing(IConfiguration configuration) : ILookupProtectorKeyRing
     {
         public string this[string keyId] => keyId;
-        public string CurrentKeyId => "key-2026";
-        public IEnumerable<string> GetAllKeyIds() => new[] { "key-2026" };
+        public string CurrentKeyId => configuration.GetSection("EncryptionKeys")
+                .Get<EncryptionKeys>() is var k ? k.Current : null;
+        public IEnumerable<string> GetAllKeyIds() => [.. configuration.GetSection("EncryptionKeys")
+                                                     .Get<EncryptionKeys>()
+                                                     .Values
+                                                     .Keys];
     }
 }

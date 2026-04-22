@@ -13,7 +13,7 @@ namespace BikeRegister.WebAPI.Identity
 
             using Aes aes = Aes.Create();
 
-            var secret = configuration[$"EncryptionKeys:{keyId}"]
+            var secret = configuration[$"EncryptionKeys:Values:{keyId}"]
                      ?? throw new Exception($"Key {keyId} not found!");
 
             aes.Key = Encoding.UTF8.GetBytes(secret.PadRight(32)[..32]);
@@ -33,7 +33,7 @@ namespace BikeRegister.WebAPI.Identity
 
             using Aes aes = Aes.Create();
 
-            var secret = configuration[$"EncryptionKeys:{keyId}"]
+            var secret = configuration[$"EncryptionKeys:Values:{keyId}"]
                      ?? throw new Exception($"Key {keyId} not found!");
 
             aes.Key = Encoding.UTF8.GetBytes(secret.PadRight(32)[..32]);
