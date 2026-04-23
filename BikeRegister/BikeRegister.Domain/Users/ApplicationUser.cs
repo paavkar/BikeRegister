@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BikeRegister.Domain.Registrations;
+using Microsoft.AspNetCore.Identity;
 
 namespace BikeRegister.Domain.Users
 {
@@ -10,5 +11,7 @@ namespace BikeRegister.Domain.Users
 
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset? UpdatedAt { get; set; }
+
+        public IEnumerable<Registration> Registrations { get; set; } = [];
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BikeRegister.Application.Auth;
 using BikeRegister.Infrastructure.Auth;
 using BikeRegister.Infrastructure.Persistence;
+using BikeRegister.Infrastructure.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,7 @@ namespace BikeRegister.Infrastructure
                 options.UseSqlServer(connectionString));
 
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }

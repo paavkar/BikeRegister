@@ -6,7 +6,6 @@ namespace BikeRegister.Application.Auth
     public interface IAuthService
     {
         Task<AuthResult> RegisterAsync(RegisterDto registerDto, string platform);
-        Task<AuthResult> FinishProfileSetupAsync(FinishProfileSetupDto dto, string userId);
         Task<AuthResult> LoginAsync(LoginDto loginDto, string platform);
         Task<AuthResult> RefreshTokenAsync(string refreshToken);
         Task<bool> RevokeRefreshTokenAsync(string refreshToken);

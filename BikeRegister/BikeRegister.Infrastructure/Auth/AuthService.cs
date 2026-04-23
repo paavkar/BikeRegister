@@ -66,37 +66,6 @@ namespace BikeRegister.Infrastructure.Auth
             return await GenerateAuthResultAsync(user, platform);
         }
 
-        public async Task<AuthResult> FinishProfileSetupAsync(FinishProfileSetupDto dto, string userId)
-        {
-            ApplicationUser? user = await userManager.FindByIdAsync(userId);
-
-            if (user is null)
-            {
-                return new AuthResult
-                {
-                    Succeeded = false,
-                    Errors = [localizer["UserNotFound"]]
-                };
-            }
-
-            user.Name = dto.Name;
-            user.PhoneNumber = dto.PhoneNumber;
-            user.ProfilePhotoUrl = dto.ProfilePhotoUrl;
-
-            IdentityResult result = await userManager.UpdateAsync(user);
-
-            return !result.Succeeded
-                ? new AuthResult
-                {
-                    Succeeded = false,
-                    Errors = result.Errors.Select(e => localizer[e.Code].ToString())
-                }
-                : new AuthResult
-                {
-                    Succeeded = true
-                };
-        }
-
         public async Task<AuthResult> LoginAsync(LoginDto loginDto, string platform)
         {
             ApplicationUser? user = string.IsNullOrWhiteSpace(loginDto.UserName)
