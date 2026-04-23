@@ -8,9 +8,9 @@ using System.Security.Claims;
 
 namespace BikeRegister.WebAPI.Controllers
 {
-    [Authorize]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     [ApiController]
     public class UserController(
         IUserService userService) : ControllerBase
