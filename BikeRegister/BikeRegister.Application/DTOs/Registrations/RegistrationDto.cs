@@ -22,11 +22,11 @@ namespace BikeRegister.Application.DTOs
         public DateTimeOffset? DateStolen { get; set; }
 
         public DateTimeOffset CreatedAt { get; set; }
-        public DateTimeOffset UpdatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
 
         public UserDto? User { get; set; }
 
-        public static RegistrationDto FromRegistration(Registration registration, UserDto user)
+        public static RegistrationDto FromRegistration(Registration registration, UserDto user = null)
         {
             return new RegistrationDto
             {

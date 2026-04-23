@@ -32,10 +32,12 @@ namespace BikeRegister.Domain.Registrations
 
     public enum FrameType
     {
-        Unknown = 0,
+        Other = 0,
         Road,
         MTB,
         Hybrid,
-        EBike
+        City,
+        Electric,
+        FatBike,
     }
 }
