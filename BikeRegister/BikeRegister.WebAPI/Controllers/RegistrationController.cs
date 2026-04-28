@@ -16,7 +16,7 @@ namespace BikeRegister.WebAPI.Controllers
     public class RegistrationController(
         IRegistrationService registrationService) : ControllerBase
     {
-        [HttpPost("add-registration")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddRegistration(CreateRegistrationDto createRegistrationDto)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
@@ -70,13 +70,49 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
-        [HttpGet("registration/{id}")]
+        [HttpGet("single/{id}")]
         public async Task<IActionResult> GetById(string id)
         {
             RegistrationResult result = await registrationService.GetByIdAsync(id);
 
             return !result.Succeeded
                 ? NotFound(result)
+                : Ok(result);
+        }
+
+        [HttpPatch("mark-stolen/{id}")]
+        public async Task<IActionResult> MarkAsStolen(string id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+
+            RegistrationResult result = await registrationService.UpdateStolenStatusAsync(id, userId, stolen: true);
+
+            return !result.Succeeded
+                ? BadRequest(result)
+                : Ok(result);
+        }
+
+        [HttpPatch("mark-not-stolen/{id}")]
+        public async Task<IActionResult> MarkNotStolen(string id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+
+            RegistrationResult result = await registrationService.UpdateStolenStatusAsync(id, userId);
+
+            return !result.Succeeded
+                ? BadRequest(result)
+                : Ok(result);
+        }
+
+        [HttpPatch("update/{id}")]
+        public async Task<IActionResult> UpdateRegistration(string id, UpdateRegistrationDto update)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+
+            RegistrationResult result = await registrationService.UpdateRegistrationAsync(id, userId, update);
+
+            return !result.Succeeded
+                ? BadRequest(result)
                 : Ok(result);
         }
     }

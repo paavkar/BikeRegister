@@ -6,6 +6,7 @@ using BikeRegister.Domain.Registrations;
 using BikeRegister.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Data;
 
 namespace BikeRegister.Infrastructure.Registrations
 {
@@ -115,6 +116,66 @@ namespace BikeRegister.Infrastructure.Registrations
             {
                 logger.LogError(ex, "An error occurred while fetching a registration by ID.");
                 return null;
+            }
+        }
+
+        public async Task<bool> UpdateStolenStatusAsync(string id, string userId, bool stolen = false)
+        {
+            try
+            {
+                DateTimeOffset dateNow = DateTimeOffset.UtcNow;
+                var rowsAffected = await context.Registrations
+                    .Where(r => r.Id == id)
+                    .ExecuteUpdateAsync(r =>
+                    {
+                        if (stolen)
+                        {
+                            r.SetProperty(r => r.IsStolen, true);
+                            r.SetProperty(r => r.DateStolen, dateNow);
+                        }
+                        else
+                        {
+                            r.SetProperty(r => r.IsStolen, false);
+                            r.SetProperty(r => r.DateStolen, (DateTimeOffset?)null);
+                        }
+                        r.SetProperty(r => r.UpdatedBy, userId);
+                        r.SetProperty(r => r.UpdatedAt, dateNow);
+                    });
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while updating a registration's stolen status.");
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateRegistrationAsync(string id, string userId, UpdateRegistrationDto update)
+        {
+            try
+            {
+                var rowsAffected = await context.Registrations
+                    .Where(r => r.Id == id)
+                    .ExecuteUpdateAsync(r =>
+                        r.SetProperty(r => r.Model, update.Model)
+                         .SetProperty(r => r.Brand, update.Brand)
+                         .SetProperty(r => r.ModelYear, update.ModelYear)
+                         .SetProperty(r => r.FrameSize, update.FrameSize)
+                         .SetProperty(r => r.FrameSizeUnit, update.FrameSizeUnit)
+                         .SetProperty(r => r.FrameType, update.FrameType)
+                         .SetProperty(r => r.PrimaryColour, update.PrimaryColour)
+                         .SetProperty(r => r.SecondaryColour, update.SecondaryColour)
+                         .SetProperty(r => r.City, update.City)
+                         .SetProperty(r => r.District, update.District)
+                         .SetProperty(r => r.Description, update.Description)
+                         .SetProperty(r => r.UpdatedBy, userId)
+                         .SetProperty(r => r.UpdatedAt, DateTimeOffset.UtcNow));
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occured while updating the registration.");
+                return false;
             }
         }
     }

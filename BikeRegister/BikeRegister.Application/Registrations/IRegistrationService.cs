@@ -6,11 +6,17 @@ namespace BikeRegister.Application.Registrations
 {
     public interface IRegistrationService
     {
+        // Create
         Task<RegistrationResult> CreateAsync(CreateRegistrationDto registrationDto, string userId);
 
+        // Read
         Task<RegistrationResult> GetUserRegistrationsAsync(string userId);
         Task<RegistrationResult> GetStolenAsync(SearchFilter filter);
         Task<RegistrationResult> GetUserStolenAsync(string userId);
         Task<RegistrationResult> GetByIdAsync(string id);
+
+        // Update
+        Task<RegistrationResult> UpdateStolenStatusAsync(string id, string userId, bool stolen = false);
+        Task<RegistrationResult> UpdateRegistrationAsync(string id, string userId, UpdateRegistrationDto update);
     }
 }

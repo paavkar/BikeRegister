@@ -73,5 +73,23 @@ namespace BikeRegister.Infrastructure.Registrations
                     Registration = registration
                 };
         }
+
+        public async Task<RegistrationResult> UpdateStolenStatusAsync(string id, string userId, bool stolen = false)
+        {
+            var updated = await repository.UpdateStolenStatusAsync(id, userId, stolen);
+
+            return updated
+                ? new RegistrationResult { Succeeded = true }
+                : new RegistrationResult { Succeeded = false, Errors = [localizer["UpdateStolenStatusFailed"]] };
+        }
+
+        public async Task<RegistrationResult> UpdateRegistrationAsync(string id, string userId, UpdateRegistrationDto update)
+        {
+            var updated = await repository.UpdateRegistrationAsync(id, userId, update);
+
+            return updated
+                ? new RegistrationResult { Succeeded = true }
+                : new RegistrationResult { Succeeded = false, Errors = [localizer["UpdateRegistrationFailed"]] };
+        }
     }
 }
