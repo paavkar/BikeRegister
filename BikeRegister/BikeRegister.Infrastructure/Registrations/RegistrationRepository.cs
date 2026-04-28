@@ -178,5 +178,37 @@ namespace BikeRegister.Infrastructure.Registrations
                 return false;
             }
         }
+
+        public async Task<bool> DeleteAsync(string id, string userId)
+        {
+            try
+            {
+                var rowsAffected = await context.Registrations
+                    .Where(r => r.Id == id && r.UserId == userId)
+                    .ExecuteDeleteAsync();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while deleting the registration.");
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteMultipleAsync(List<string> ids, string userId)
+        {
+            try
+            {
+                var rowsAffected = await context.Registrations
+                    .Where(r => ids.Contains(r.Id) && r.UserId == userId)
+                    .ExecuteDeleteAsync();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while deleting the registrations.");
+                return false;
+            }
+        }
     }
 }

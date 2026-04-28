@@ -20,7 +20,8 @@ namespace BikeRegister.Infrastructure.Persistence
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Registration>()
-                .HasIndex(r => r.SerialNumber);
+                .HasIndex(r => r.SerialNumber)
+                .IsUnique();
 
             builder.Entity<Registration>()
                 .HasIndex(r => r.UserId);
