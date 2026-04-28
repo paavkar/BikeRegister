@@ -25,7 +25,7 @@ namespace BikeRegister.WebAPI.Controllers
 
             return !result.Succeeded
                 ? BadRequest(result)
-                : Ok(result);
+                : CreatedAtAction(nameof(AddRegistration), result);
         }
 
         [HttpGet("my-registrations")]
