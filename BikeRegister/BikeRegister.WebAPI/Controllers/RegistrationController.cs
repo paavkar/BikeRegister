@@ -115,5 +115,29 @@ namespace BikeRegister.WebAPI.Controllers
                 ? BadRequest(result)
                 : Ok(result);
         }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteRegistration(string id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+
+            RegistrationResult result = await registrationService.DeleteAsync(id, userId);
+
+            return !result.Succeeded
+                ? BadRequest(result)
+                : NoContent();
+        }
+
+        [HttpDelete("delete-multiple")]
+        public async Task<IActionResult> DeleteMultipleRegistrations(List<string> ids)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+
+            RegistrationResult result = await registrationService.DeleteMultipleAsync(ids, userId);
+
+            return !result.Succeeded
+                ? BadRequest(result)
+                : NoContent();
+        }
     }
 }

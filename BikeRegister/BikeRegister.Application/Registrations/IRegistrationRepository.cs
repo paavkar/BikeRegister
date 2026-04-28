@@ -18,5 +18,9 @@ namespace BikeRegister.Application.Registrations
         // Update
         Task<bool> UpdateStolenStatusAsync(string id, string userId, bool stolen = false);
         Task<bool> UpdateRegistrationAsync(string id, string userId, UpdateRegistrationDto update);
+
+        // Delete
+        Task<bool> DeleteAsync(string id, string userId);
+        Task<bool> DeleteMultipleAsync(List<string> ids, string userId);
     }
 }

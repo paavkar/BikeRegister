@@ -91,5 +91,21 @@ namespace BikeRegister.Infrastructure.Registrations
                 ? new RegistrationResult { Succeeded = true }
                 : new RegistrationResult { Succeeded = false, Errors = [localizer["UpdateRegistrationFailed"]] };
         }
+
+        public async Task<RegistrationResult> DeleteAsync(string id, string userId)
+        {
+            var deleted = await repository.DeleteAsync(id, userId);
+            return deleted
+                ? new RegistrationResult { Succeeded = true }
+                : new RegistrationResult { Succeeded = false, Errors = [localizer["DeleteRegistrationFailed"]] };
+        }
+
+        public async Task<RegistrationResult> DeleteMultipleAsync(List<string> ids, string userId)
+        {
+            var deleted = await repository.DeleteMultipleAsync(ids, userId);
+            return deleted
+                ? new RegistrationResult { Succeeded = true }
+                : new RegistrationResult { Succeeded = false, Errors = [localizer["DeleteMultipleRegistrationsFailed"]] };
+        }
     }
 }
