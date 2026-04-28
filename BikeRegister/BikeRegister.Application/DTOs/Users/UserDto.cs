@@ -11,7 +11,7 @@ namespace BikeRegister.Application.DTOs.Users
         public string Name { get; set; }
         public string? ProfilePhotoUrl { get; set; }
 
-        public UserDto FromUser(ApplicationUser user)
+        public static UserDto FromUser(ApplicationUser user)
         {
             return new UserDto
             {

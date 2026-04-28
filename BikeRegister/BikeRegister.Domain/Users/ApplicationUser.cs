@@ -12,6 +12,6 @@ namespace BikeRegister.Domain.Users
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset? UpdatedAt { get; set; }
 
-        public IEnumerable<Registration> Registrations { get; set; } = [];
+        public ICollection<Registration> Registrations { get; set; } = [];
     }
 }

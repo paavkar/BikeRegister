@@ -1,4 +1,5 @@
 ﻿using BikeRegister.Application.DTOs;
+using BikeRegister.Application.DTOs.Registrations;
 using BikeRegister.Application.Registrations;
 using BikeRegister.Application.ResultModels;
 using BikeRegister.Domain.Registrations;
@@ -19,6 +20,58 @@ namespace BikeRegister.Infrastructure.Registrations
             return registrationCreated
                 ? new RegistrationResult { Succeeded = true, Registration = RegistrationDto.FromRegistration(registration) }
                 : new RegistrationResult { Succeeded = false, Errors = [localizer["AddRegistrationFailed"]] };
+        }
+
+        public async Task<RegistrationResult> GetUserRegistrationsAsync(string userId)
+        {
+            List<RegistrationDto>? registrations = await repository.GetByUserIdAsync(userId);
+
+            return registrations is null
+                ? new RegistrationResult { Succeeded = false, Errors = [localizer["UserRegistrationsNotFound"]] }
+                : new RegistrationResult
+                {
+                    Succeeded = true,
+                    Registrations = registrations
+                };
+        }
+
+        public async Task<RegistrationResult> GetStolenAsync(SearchFilter filter)
+        {
+            List<RegistrationDto>? stolen = await repository.GetAllStolenAsync(filter);
+
+            return stolen is null
+                ? new RegistrationResult { Succeeded = false, Errors = [localizer["StolenRegistrationsNotFound"]] }
+                : new RegistrationResult
+                {
+                    Succeeded = true,
+                    Registrations = stolen
+                };
+        }
+
+        public async Task<RegistrationResult> GetUserStolenAsync(string userId)
+        {
+            List<RegistrationDto>? stolen = await repository.GetUserStolenAsync(userId);
+
+            return stolen is null
+                ? new RegistrationResult { Succeeded = false, Errors = [localizer["StolenRegistrationsNotFound"]] }
+                : new RegistrationResult
+                {
+                    Succeeded = true,
+                    Registrations = stolen
+                };
+        }
+
+        public async Task<RegistrationResult> GetByIdAsync(string id)
+        {
+            RegistrationDto? registration = await repository.GetByIdAsync(id);
+
+            return registration is null
+                ? new RegistrationResult { Succeeded = false, Errors = [localizer["RegistrationNotFound"]] }
+                : new RegistrationResult
+                {
+                    Succeeded = true,
+                    Registration = registration
+                };
         }
     }
 }
