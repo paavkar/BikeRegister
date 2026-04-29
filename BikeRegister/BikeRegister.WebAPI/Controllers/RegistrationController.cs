@@ -50,6 +50,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("stolen")]
         public async Task<IActionResult> GetStolen(SearchFilter filter)
         {
