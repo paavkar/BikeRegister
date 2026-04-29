@@ -1,5 +1,20 @@
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Link, Outlet, useNavigate } from '@tanstack/react-router'
 import { useAuthStore } from '../state/authStore';
+import {
+    Menu,
+    MenuTrigger,
+    MenuPopover,
+    MenuList,
+    MenuItem,
+    Persona,
+    Label
+ } from '@fluentui/react-components';
+ import {
+  PersonRegular,
+  SettingsRegular,
+  DoorArrowRightRegular
+} from "@fluentui/react-icons";
+
 
 export const Route = createRootRoute({
   component: RootComponent
@@ -15,6 +30,9 @@ const linkStyle = {
 
 function RootComponent() {
     const isAuthenticated = useAuthStore((state) => state.accessToken !== null);
+    const logout = useAuthStore((state) => state.logout);
+    const user = useAuthStore((state) => state.user);
+    const navigate = useNavigate();
     
     return (
         <>
@@ -27,6 +45,37 @@ function RootComponent() {
                     {!isAuthenticated  &&
                         <Link to="/register" style={linkStyle}>Register</Link>
                     }
+                    {isAuthenticated && (
+                        <div style={{ marginLeft: "auto", alignContent: "center", marginRight: "1em" }}>
+                            <Menu positioning={{ autoSize: true }}>
+                                <MenuTrigger>
+                                    <div style={{ cursor: "pointer", display: "flex", gap: "0.5em", flexDirection: "row" }}>
+                                        <Persona avatar={user?.profilePhotoUrl} size='large' />
+                                        <Label style={{ cursor: "pointer" }}>{user?.name || user?.userName}</Label>
+                                    </div>
+                                </MenuTrigger>
+
+                                <MenuPopover>
+                                    <MenuList>
+                                        <MenuItem
+                                            icon={<PersonRegular />}>
+                                            Profile
+                                        </MenuItem>
+                                        <MenuItem icon={<SettingsRegular />}>
+                                            Settings
+                                        </MenuItem>
+                                        <MenuItem icon={<DoorArrowRightRegular />}
+                                                onClick={() => {
+                                                    logout();
+                                                    navigate({ to: "/" });
+                                                }}>
+                                            Logout
+                                        </MenuItem>
+                                    </MenuList>
+                                </MenuPopover>
+                            </Menu>
+                        </div>
+                    )}
                 </nav>
             </div>
             <Outlet />
