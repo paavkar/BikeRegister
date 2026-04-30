@@ -8,6 +8,7 @@ import { routeTree } from './routeTree.gen'
 
 import { FluentProvider, webDarkTheme } from '@fluentui/react-components';
 import { getFullLocale } from './services/localeService';
+import './i18n';
 
 const router = createRouter({ routeTree })
 

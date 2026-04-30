@@ -14,6 +14,7 @@ import {
   SettingsRegular,
   DoorArrowRightRegular
 } from "@fluentui/react-icons";
+import { useTranslation } from 'react-i18next';
 
 export const Route = createRootRoute({
   component: RootComponent
@@ -32,10 +33,38 @@ function RootComponent() {
     const logout = useAuthStore((state) => state.logout);
     const user = useAuthStore((state) => state.user);
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
 
     const handleLogout = () => {
         logout();
         navigate({ to: "/" });
+    }
+
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+    };
+
+    const LanguageSubMenu = () => {
+        return (
+            <Menu>
+                <MenuTrigger>
+                    <MenuItem>{t('uiLanguage')}</MenuItem>
+                </MenuTrigger>
+
+                <MenuPopover>
+                    <MenuList>
+                        <MenuItem
+                            onClick={() => changeLanguage("fi")}>
+                            suomi
+                        </MenuItem>
+                        <MenuItem
+                            onClick={() => changeLanguage("en")}>
+                            English
+                        </MenuItem>
+                    </MenuList>
+                </MenuPopover>
+            </Menu>
+        )
     }
     
     return (
@@ -44,10 +73,10 @@ function RootComponent() {
                 <nav style={{ display: "flex", gap: "1em" }}>
                     <Link to="/" style={linkStyle}>BikeRegister</Link>
                     {!isAuthenticated  &&
-                        <Link to="/login" style={linkStyle}>Login</Link>
+                        <Link to="/login" style={linkStyle}>{t('login')}</Link>
                     }
                     {!isAuthenticated  &&
-                        <Link to="/register" style={linkStyle}>Register</Link>
+                        <Link to="/register" style={linkStyle}>{t('register')}</Link>
                     }
                     {isAuthenticated && (
                         <div style={{ marginLeft: "auto", alignContent: "center", marginRight: "1em" }}>
@@ -63,14 +92,15 @@ function RootComponent() {
                                     <MenuList>
                                         <MenuItem
                                             icon={<PersonRegular />}>
-                                            Profile
+                                            {t('profile')}
                                         </MenuItem>
                                         <MenuItem icon={<SettingsRegular />}>
-                                            Settings
+                                            {t('settings')}
                                         </MenuItem>
+                                        <LanguageSubMenu />
                                         <MenuItem icon={<DoorArrowRightRegular />}
                                                 onClick={() => handleLogout()}>
-                                            Logout
+                                            {t('logOut')}
                                         </MenuItem>
                                     </MenuList>
                                 </MenuPopover>

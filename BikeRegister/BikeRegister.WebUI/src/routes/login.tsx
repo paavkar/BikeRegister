@@ -20,6 +20,7 @@ import type { AuthResult, UserResult } from '../types';
 import { useAuthStore } from '../state/authStore';
 import { createClient } from '../hey-api/client';
 import { getFullLocale } from '../services/localeService';
+import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/login')({
   component: LoginComponent,
@@ -33,6 +34,7 @@ function LoginComponent() {
   const accessToken = useAuthStore((state) => state.accessToken);
   const navigate = useNavigate({ from: "/login" });
   const [useEmail, setUseEmail] = useState(true)
+  const { t } = useTranslation();
 
   const localClient = createClient({
     baseUrl: 'https://localhost:26786/',
@@ -74,10 +76,10 @@ function LoginComponent() {
             <ToastTitle
               action={
                 <ToastTrigger>
-                  <Link>Dismiss</Link>
+                  <Link>{t('dismiss')}</Link>
                 </ToastTrigger>
               }>
-              User Fetch Failed
+              {t('userFetchFail')}
               </ToastTitle>
             <ToastBody key={message}>{message}</ToastBody>
           </Toast>,
@@ -102,10 +104,10 @@ function LoginComponent() {
             <ToastTitle
               action={
                 <ToastTrigger>
-                  <Link>Dismiss</Link>
+                  <Link>{t('dismiss')}</Link>
                 </ToastTrigger>
               }>
-              Login Failed
+              {t('loginFailed')}
               </ToastTitle>
             <ToastBody key={message}>{message}</ToastBody>
           </Toast>,
@@ -127,9 +129,9 @@ function LoginComponent() {
         margin: "1em",
         alignItems: "center"
       }}>
-      <h1>Login</h1>
+      <h1>{t('login')}</h1>
       <Toaster toasterId={toasterId} />
-      <form
+      <form style={{ display: "flex", flexDirection: "column", gap: "1em" }}
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -151,14 +153,14 @@ function LoginComponent() {
             })
           }}
             appearance='primary' style={{ marginBottom: "1em", marginTop: "1em" }}>
-            {useEmail ? "Use username to log in" : "Use email to log in"}
+            {useEmail ? t('useUsername') : t('useEmail')}
           </Button>
           {useEmail
           ? <div>
               <form.Field name="email">
                 {(field) => (
                   <div style={{ display: "flex", flexDirection: "column", maxWidth: "20em" }}>
-                    <Label htmlFor='field.email'>Email</Label>
+                    <Label htmlFor='field.email'>{t('email')}</Label>
                     <Input
                       id={field.name}
                       name={field.name}
@@ -173,7 +175,7 @@ function LoginComponent() {
               <form.Field name="userName">
                 {(field) => (
                   <div style={{ display: "flex", flexDirection: "column", maxWidth: "20em" }}>
-                    <Label htmlFor='field.userName'>Username</Label>
+                    <Label htmlFor='field.userName'>{t('userName')}</Label>
                     <Input
                       id={field.name}
                       name={field.name}
@@ -188,7 +190,7 @@ function LoginComponent() {
           <form.Field name="password">
             {(field) => (
               <div style={{ display: "flex", flexDirection: "column", maxWidth: "20em" }}>
-                <Label htmlFor='field.password'>Password</Label>
+                <Label htmlFor='field.password'>{t('password')}</Label>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -199,14 +201,14 @@ function LoginComponent() {
               </div>
             )}
           </form.Field>
-          <div style={{ display: "flex", flexDirection: "column", marginTop: "1em" }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             <Label style={{ minWidth: "20em" }}>
-              Don't have an account?<br />
-              <RouterLink to='/register'>Register here.</RouterLink>
+              {t('noAccount')}<br />
+              <RouterLink to='/register'>{t('registerHere')}</RouterLink>
             </Label>
             <Button type='submit' appearance='primary' style={{ marginTop: "1em", maxWidth: "20em" }}
               disabled={!form.state.isValid || form.state.isSubmitting}>
-                Log in
+                {t('loginVerb')}
             </Button>
           </div>
         </form>

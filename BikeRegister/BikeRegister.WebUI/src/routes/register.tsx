@@ -21,24 +21,11 @@ import { useAuthStore } from '../state/authStore';
 import { useEffect } from 'react';
 import { createClient } from '../hey-api/client';
 import { getFullLocale } from '../services/localeService';
+import { useTranslation } from 'react-i18next';
 
 export const Route = createFileRoute('/register')({
   component: RegisterComponent,
 })
-
-const registerSchema = z.object({
-  email: z.email("Please enter a valid email address"),
-  userName: z.string().min(3, "User name must be at least 3 characters long"),
-  password: z.string().min(8, "Password must be at least 8 characters long")
-    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-    .regex(/[0-9]/, "Password must contain at least one number")
-    .regex(/[@$!%*?&]/, "Password must contain at least one special character (@$!%*?&)"),
-  confirmPassword: z.string()
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords must match",
-  path: ["confirmPassword"]
-});
 
 function RegisterComponent() {
   const toasterId = useId("toaster");
@@ -47,6 +34,21 @@ function RegisterComponent() {
   const setUser = useAuthStore((state) => state.setUser);
   const accessToken = useAuthStore((state) => state.accessToken);
   const navigate = useNavigate({ from: "/register" });
+  const { t } = useTranslation();
+
+  const registerSchema = z.object({
+    email: z.email(t('validEmail')),
+    userName: z.string().min(3, t('usernameLength')),
+    password: z.string().min(8, t('passwordLength'))
+      .regex(/[A-Z]/, t('passwordUppercase'))
+      .regex(/[a-z]/, t('passwordLowercase'))
+      .regex(/[0-9]/, t('passwordNumber'))
+      .regex(/[@$!%*?&]/, t('passwordSpecial')),
+    confirmPassword: z.string()
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: t('passwordMatch'),
+    path: ["confirmPassword"]
+  });
 
   const localClient = createClient({
     baseUrl: 'https://localhost:26786/',
@@ -97,10 +99,10 @@ function RegisterComponent() {
             <ToastTitle
               action={
                 <ToastTrigger>
-                  <Link>Dismiss</Link>
+                  <Link>{t('dismiss')}</Link>
                 </ToastTrigger>
               }>
-              User Fetch Failed
+              {t('userFetchFail')}
               </ToastTitle>
             <ToastBody key={message}>{message}</ToastBody>
           </Toast>,
@@ -125,10 +127,10 @@ function RegisterComponent() {
             <ToastTitle
               action={
                 <ToastTrigger>
-                  <Link>Dismiss</Link>
+                  <Link>{t('dismiss')}</Link>
                 </ToastTrigger>
               }>
-              Registration Failed
+              {t('registerFailed')}
               </ToastTitle>
             <ToastBody key={message}>{message}</ToastBody>
           </Toast>,
@@ -150,9 +152,9 @@ function RegisterComponent() {
         margin: "1em",
         alignItems: "center"
       }}>
-      <h1>Register</h1>
+      <h1>{t('register')}</h1>
       <Toaster toasterId={toasterId} />
-      <form
+      <form style={{ display: "flex", flexDirection: "column", gap: "1em" }}
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -161,7 +163,7 @@ function RegisterComponent() {
           <form.Field name="email">
             {(field) => (
               <div style={{ display: "flex", flexDirection: "column", maxWidth: "20em" }}>
-                <Label htmlFor='field.email'>Email</Label>
+                <Label htmlFor='field.email'>{t('email')}</Label>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -180,7 +182,7 @@ function RegisterComponent() {
           <form.Field name="userName">
             {(field) => (
               <div style={{ display: "flex", flexDirection: "column", maxWidth: "20em" }}>
-                <Label htmlFor='field.userName'>User Name</Label>
+                <Label htmlFor='field.userName'>{t('userName')}</Label>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -199,7 +201,7 @@ function RegisterComponent() {
           <form.Field name="password">
             {(field) => (
               <div style={{ display: "flex", flexDirection: "column", maxWidth: "20em" }}>
-                <Label htmlFor='field.password'>Password</Label>
+                <Label htmlFor='field.password'>{t('password')}</Label>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -218,7 +220,7 @@ function RegisterComponent() {
           <form.Field name="confirmPassword">
             {(field) => (
               <div style={{ display: "flex", flexDirection: "column", maxWidth: "20em" }}>
-                <Label htmlFor='field.confirmPassword'>Confirm Password</Label>
+                <Label htmlFor='field.confirmPassword'>{t('confirmPassword')}</Label>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -234,11 +236,13 @@ function RegisterComponent() {
               </div>
             )}
           </form.Field>
-          <div style={{ display: "flex", flexDirection: "column", marginTop: "1em" }}>
-            <Label style={{ maxWidth: "20em" }}>Already have an account? <RouterLink to='/login'>Log in here.</RouterLink></Label>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <Label style={{ maxWidth: "20em" }}>{t('alreadyAccount')}{" "}
+              <RouterLink to='/login'>{t('loginHere')}</RouterLink>
+            </Label>
             <Button type='submit' appearance='primary' style={{ marginTop: "1em", maxWidth: "20em" }}
               disabled={!form.state.isValid || form.state.isSubmitting}>
-                Register
+                {t('registerVerb')}
             </Button>
           </div>
         </form>
