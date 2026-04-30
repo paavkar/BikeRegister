@@ -52,7 +52,7 @@ namespace BikeRegister.WebAPI.Controllers
 
         [AllowAnonymous]
         [HttpGet("stolen")]
-        public async Task<IActionResult> GetStolen(SearchFilter filter)
+        public async Task<IActionResult> GetStolen([FromQuery] SearchFilter filter)
         {
             RegistrationResult result = await registrationService.GetStolenAsync(filter);
 

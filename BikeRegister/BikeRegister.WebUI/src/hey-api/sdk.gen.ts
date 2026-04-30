@@ -89,14 +89,7 @@ export const getApiVbyVersionRegistrationMyRegistrations = <ThrowOnError extends
 
 export const getApiVbyVersionRegistrationUserRegistrationsByUserId = <ThrowOnError extends boolean = false>(options: Options<GetApiVbyVersionRegistrationUserRegistrationsByUserIdData, ThrowOnError>) => (options.client ?? client).get<GetApiVbyVersionRegistrationUserRegistrationsByUserIdResponses, unknown, ThrowOnError>({ url: '/api/v{version}/Registration/user-registrations/{userId}', ...options });
 
-export const getApiVbyVersionRegistrationStolen = <ThrowOnError extends boolean = false>(options: Options<GetApiVbyVersionRegistrationStolenData, ThrowOnError>) => (options.client ?? client).get<GetApiVbyVersionRegistrationStolenResponses, unknown, ThrowOnError>({
-    url: '/api/v{version}/Registration/stolen',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
-});
+export const getApiVbyVersionRegistrationStolen = <ThrowOnError extends boolean = false>(options: Options<GetApiVbyVersionRegistrationStolenData, ThrowOnError>) => (options.client ?? client).get<GetApiVbyVersionRegistrationStolenResponses, unknown, ThrowOnError>({ url: '/api/v{version}/Registration/stolen', ...options });
 
 export const getApiVbyVersionRegistrationStolenByUserId = <ThrowOnError extends boolean = false>(options: Options<GetApiVbyVersionRegistrationStolenByUserIdData, ThrowOnError>) => (options.client ?? client).get<GetApiVbyVersionRegistrationStolenByUserIdResponses, unknown, ThrowOnError>({ url: '/api/v{version}/Registration/stolen/{userId}', ...options });
 

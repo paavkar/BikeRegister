@@ -47,12 +47,6 @@ export type RegisterDto = {
     password: string;
 };
 
-export type SearchFilter = {
-    brand?: null | string;
-    city?: null | string;
-    serialNumber?: null | string;
-};
-
 export type TwoFactorDto = {
     email?: null | string;
     userName?: null | string;
@@ -255,11 +249,15 @@ export type GetApiVbyVersionRegistrationUserRegistrationsByUserIdResponses = {
 };
 
 export type GetApiVbyVersionRegistrationStolenData = {
-    body: SearchFilter;
+    body?: never;
     path: {
         version: string;
     };
-    query?: never;
+    query?: {
+        Brand?: string;
+        City?: string;
+        SerialNumber?: string;
+    };
     url: '/api/v{version}/Registration/stolen';
 };
 
