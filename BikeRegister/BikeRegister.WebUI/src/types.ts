@@ -16,6 +16,11 @@ export type UserResult = BaseResult & {
     user: AppUser | null;
 }
 
+export type RegistrationResult = BaseResult & {
+    registration: Registration | null;
+    registrations: Array<Registration> | null;
+}
+
 export type AppUser = {
     id: string;
     userName: string;
@@ -58,3 +63,9 @@ export type Registration = {
     dateStolen: Date | null;
     user: RegistrationUser;
 }
+
+export type SearchFilter = {
+    Brand?: string;
+    City?: string;
+    SerialNumber?: string;
+};

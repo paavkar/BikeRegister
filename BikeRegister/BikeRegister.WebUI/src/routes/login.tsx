@@ -21,6 +21,7 @@ import { useAuthStore } from '../state/authStore';
 import { createClient } from '../hey-api/client';
 import { getFullLocale } from '../services/localeService';
 import { useTranslation } from 'react-i18next';
+import type { LoginDto } from '../hey-api';
 
 export const Route = createFileRoute('/login')({
   component: LoginComponent,
@@ -49,7 +50,7 @@ function LoginComponent() {
         email: "",
         userName: "",
         password: "",
-      },
+      } as LoginDto,
       onSubmit: async ({ value }) => {
         await loginMutation.mutateAsync({
             body: value,
@@ -164,7 +165,6 @@ function LoginComponent() {
                     <Input
                       id={field.name}
                       name={field.name}
-                      value={field.state.value}
                       type='email'
                       onChange={(e) => field.handleChange(e.target.value)} />
                   </div>
@@ -179,7 +179,6 @@ function LoginComponent() {
                     <Input
                       id={field.name}
                       name={field.name}
-                      value={field.state.value}
                       type='text'
                       onChange={(e) => field.handleChange(e.target.value)} />
                   </div>
