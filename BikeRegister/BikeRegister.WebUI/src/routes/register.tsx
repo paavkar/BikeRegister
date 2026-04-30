@@ -88,6 +88,7 @@ function RegisterComponent() {
   })
 
   useEffect(() => {
+    if (!accessToken) return;
     if (error) {
       const result = error as unknown as UserResult;
       result.errors?.map((message) =>
@@ -112,7 +113,7 @@ function RegisterComponent() {
     const result = data as unknown as UserResult;
     setUser(result?.user ?? null);
     navigate({ to: "/" });
-  }, [data, error])
+  }, [data, error, accessToken])
 
   const register = useMutation({
     ...postApiVbyVersionAuthRegisterMutation(),
@@ -160,7 +161,7 @@ function RegisterComponent() {
           <form.Field name="email">
             {(field) => (
               <div style={{ display: "flex", flexDirection: "column", maxWidth: "20em" }}>
-                <Label htmlFor='field.email' >Email</Label>
+                <Label htmlFor='field.email'>Email</Label>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -198,7 +199,7 @@ function RegisterComponent() {
           <form.Field name="password">
             {(field) => (
               <div style={{ display: "flex", flexDirection: "column", maxWidth: "20em" }}>
-                <Label htmlFor='field.password' >Password</Label>
+                <Label htmlFor='field.password'>Password</Label>
                 <Input
                   id={field.name}
                   name={field.name}
