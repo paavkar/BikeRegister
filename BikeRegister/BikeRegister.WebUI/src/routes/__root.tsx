@@ -15,7 +15,6 @@ import {
   DoorArrowRightRegular
 } from "@fluentui/react-icons";
 
-
 export const Route = createRootRoute({
   component: RootComponent
 })
@@ -33,6 +32,11 @@ function RootComponent() {
     const logout = useAuthStore((state) => state.logout);
     const user = useAuthStore((state) => state.user);
     const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate({ to: "/" });
+    }
     
     return (
         <>
@@ -65,10 +69,7 @@ function RootComponent() {
                                             Settings
                                         </MenuItem>
                                         <MenuItem icon={<DoorArrowRightRegular />}
-                                                onClick={() => {
-                                                    logout();
-                                                    navigate({ to: "/" });
-                                                }}>
+                                                onClick={() => handleLogout()}>
                                             Logout
                                         </MenuItem>
                                     </MenuList>
