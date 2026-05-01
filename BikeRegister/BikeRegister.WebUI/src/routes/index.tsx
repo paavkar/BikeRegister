@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router'
 import {
   Dialog,
@@ -5,8 +6,6 @@ import {
   DialogSurface,
   DialogBody,
   Button,
-  Card,
-  Label,
   Field,
   Input,
   Toaster,
@@ -24,24 +23,26 @@ import { useAuthStore } from '../state/authStore';
 import { useQuery } from '@tanstack/react-query';
 import { createClient } from '../hey-api/client';
 import { getFullLocale } from '../services/localeService';
-import { getApiVbyVersionRegistrationStolenOptions } from '../hey-api/@tanstack/react-query.gen'
+import { 
+  getApiVbyVersionRegistrationStolenOptions
+ } from '../hey-api/@tanstack/react-query.gen'
 import type { SearchFilter } from '../types';
 import { useForm } from '@tanstack/react-form';
-import { useEffect, useState } from 'react';
 import type { Registration, RegistrationResult } from '../types';
+import { RegistrationCard } from '../components/registrationCard';
 
 export const Route = createFileRoute('/')({
   component: IndexComponent,
 })
 
 function IndexComponent() {
-  const toasterId = useId("toaster");
-  const { dispatchToast } = useToastController(toasterId);
-  const { t } = useTranslation();
-  const isAuthenticated = useAuthStore((state) => state.accessToken !== null);
   const accessToken = useAuthStore((state) => state.accessToken);
   const [registrations, setRegistrations] = useState<Array<Registration>>([]);
   const [searchFilter, setSearchFilter] = useState<SearchFilter>({});
+  const toasterId = useId("toaster");
+  const { dispatchToast } = useToastController(toasterId);
+  const isAuthenticated = accessToken !== null;
+  const { t } = useTranslation();
 
   const localClient = createClient({
     baseUrl: 'https://localhost:26786/',
@@ -102,7 +103,9 @@ function IndexComponent() {
     <div style={{ margin: "1em" }}>
       <h1>Welcome to the Bike Register!</h1>
       <Toaster toasterId={toasterId} />
-      <form style={{ display: "flex", flexDirection: "row", gap: "1em" }}
+      <form style={{ display: "grid", gap: "1em",
+        gridTemplateColumns: "repeat(auto-fit, minmax(16em, 16em))"
+       }}
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -149,29 +152,26 @@ function IndexComponent() {
       </form>
       {isAuthenticated
       ? 
-      <Dialog>
-        <DialogTrigger>
-          <Button appearance='primary' style={{ marginTop: "1em" }}>
-            {t('addRegistration')}
-          </Button>
-        </DialogTrigger>
-        <DialogSurface>
-          <DialogBody>
-            <CreateRegistration />
-          </DialogBody>
-        </DialogSurface>
-      </Dialog>
+        <Dialog>
+          <DialogTrigger>
+            <Button appearance='primary' style={{ marginTop: "1em" }}>
+              {t('addRegistration')}
+            </Button>
+          </DialogTrigger>
+          <DialogSurface>
+            <DialogBody>
+              <CreateRegistration />
+            </DialogBody>
+          </DialogSurface>
+        </Dialog>
       : null
       }
-      {registrations.map((registration) => 
-        (<Card key={registration.id} style={{marginTop: "1em"}}>
-          <Label>{registration.brand}</Label>
-          <Label>{registration.city}</Label>
-          <Label>{registration.district}</Label>
-          <Label>{`${t('stolenOn')} ${new Date(`${registration.dateStolen}`).toLocaleDateString()}`}</Label>
-          <Label>{registration.user.userName}</Label>
-        </Card>)
-      )}
+      <div style={{ display: "grid", gap: "1rem", justifyContent: "center",
+          gridTemplateColumns: "repeat(auto-fit, minmax(24em, 24em))" }}>
+        {registrations.map((registration) => 
+          <RegistrationCard key={registration.id} registration={registration} />
+        )}
+      </div>
     </div>
   )
 }

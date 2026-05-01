@@ -71,6 +71,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("single/{id}")]
         public async Task<IActionResult> GetById(string id)
         {

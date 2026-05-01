@@ -30,6 +30,7 @@
     "passwordSpecial": "Salasanassa täytyy olla vähintää yksi erikoismerkki (@$!%*?&)",
     "passwordMatch": "Salasanavarmistuksen täytyy olla sama, kuin salasana",
     "addRegistration": "Rekisteröi pyöräsi",
+    "addRegistrationFailed": "Rekisteriotteen luominen epäonnistui",
     "enterBikeInformation": "Anna pyöräsi informaatio",
     "saveRegistration": "Tallenna rekisteri",
     "cancel": "Peruuta",
@@ -58,5 +59,13 @@
     "dateStolen": "Varkauspäivämäärä",
     "search": "Hae",
     "registrationsFetchFail": "Rekisteriotteiden haku epäonnistui",
-    "stolenOn": "Varastettu:"
+    "stolenOn": "Varastettu:",
+    "autoplay": "Toista automaattisesti",
+    "nextImage": "Seuraava kuva",
+    "prevImage": "Edellinen kuva",
+    "registrationDetails": "Rekisteriotteen tiedot",
+    "ownerDetails": "Omistajan tiedot",
+    "name": "Nimi",
+    "phoneNumber": "Puhelinnumero",
+    "editRegistration": "Muokkaa"
 }
