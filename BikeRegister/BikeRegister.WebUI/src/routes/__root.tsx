@@ -12,7 +12,8 @@ import {
  import {
   PersonRegular,
   SettingsRegular,
-  DoorArrowRightRegular
+  DoorArrowRightRegular,
+  LocalLanguageRegular
 } from "@fluentui/react-icons";
 import { useTranslation } from 'react-i18next';
 
@@ -48,7 +49,7 @@ function RootComponent() {
         return (
             <Menu>
                 <MenuTrigger>
-                    <MenuItem>{t('uiLanguage')}</MenuItem>
+                    <MenuItem icon={<LocalLanguageRegular />}>{t('uiLanguage')}</MenuItem>
                 </MenuTrigger>
 
                 <MenuPopover>
