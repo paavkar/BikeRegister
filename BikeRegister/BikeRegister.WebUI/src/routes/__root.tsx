@@ -21,7 +21,7 @@ import {
     LocalLanguageRegular,
 } from '@fluentui/react-icons';
 import { useMutation } from '@tanstack/react-query';
-import { postApiVbyVersionAuthRevokeMutation } from '../hey-api/@tanstack/react-query.gen';
+import { revokeRefreshMutation } from '../hey-api/@tanstack/react-query.gen';
 import { useTranslation } from 'react-i18next';
 
 export const Route = createRootRoute({
@@ -45,7 +45,7 @@ function RootComponent() {
     const { t, i18n } = useTranslation();
 
     const refreshRevokeMutation = useMutation({
-        ...postApiVbyVersionAuthRevokeMutation(),
+        ...revokeRefreshMutation(),
         onSuccess: (_data) => {
             navigate({ to: '/' });
         },

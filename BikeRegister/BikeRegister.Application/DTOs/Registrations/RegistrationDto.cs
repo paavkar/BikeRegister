@@ -1,4 +1,5 @@
-﻿using BikeRegister.Application.DTOs.Users;
+﻿using BikeRegister.Application.DTOs.Images;
+using BikeRegister.Application.DTOs.Users;
 using BikeRegister.Domain.Registrations;
 
 namespace BikeRegister.Application.DTOs
@@ -25,8 +26,12 @@ namespace BikeRegister.Application.DTOs
         public DateTimeOffset? UpdatedAt { get; set; }
 
         public UserDto? User { get; set; }
+        public ICollection<ImageDto> Images { get; set; }
 
-        public static RegistrationDto FromRegistration(Registration registration, UserDto user = null)
+        public static RegistrationDto FromRegistration(
+            Registration registration,
+            ICollection<ImageDto> images,
+            UserDto user = null)
         {
             return new RegistrationDto
             {
@@ -47,7 +52,8 @@ namespace BikeRegister.Application.DTOs
                 DateStolen = registration.DateStolen,
                 CreatedAt = registration.CreatedAt,
                 UpdatedAt = registration.UpdatedAt,
-                User = user
+                User = user,
+                Images = images,
             };
         }
     }

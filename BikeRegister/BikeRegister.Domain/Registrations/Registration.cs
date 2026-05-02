@@ -1,4 +1,5 @@
-﻿using BikeRegister.Domain.Users;
+﻿using BikeRegister.Domain.Images;
+using BikeRegister.Domain.Users;
 
 namespace BikeRegister.Domain.Registrations
 {
@@ -22,6 +23,7 @@ namespace BikeRegister.Domain.Registrations
 
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
+        public ICollection<Image> Images { get; set; } = [];
     }
 
     public enum FrameSizeUnit

@@ -6,10 +6,10 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { createClient } from '../../../hey-api/client';
 import { getFullLocale } from '../../../services/localeService';
 import {
-    getApiVbyVersionRegistrationSingleByIdOptions,
-    patchApiVbyVersionRegistrationMarkStolenByIdMutation,
-    patchApiVbyVersionRegistrationMarkNotStolenByIdMutation,
-    postApiVbyVersionAuthRefreshMutation,
+    singleRegistrationOptions,
+    markStolenMutation,
+    markNotStolenMutation,
+    refreshLoginMutation,
 } from '../../../hey-api/@tanstack/react-query.gen';
 import {
     Button,
@@ -34,6 +34,9 @@ import {
     Body1,
     CardPreview,
     Spinner,
+    Image,
+    type CarouselAnnouncerFunction,
+    CarouselCard,
 } from '@fluentui/react-components';
 import { EditRegular } from '@fluentui/react-icons';
 import type {
@@ -89,14 +92,14 @@ function RegistrationViewComponent() {
     };
 
     const { data, error } = useQuery({
-        ...getApiVbyVersionRegistrationSingleByIdOptions({
+        ...singleRegistrationOptions({
             client: localClient,
             path: { version: '1', id: registrationId },
         }),
     });
 
     const refreshMutation = useMutation({
-        ...postApiVbyVersionAuthRefreshMutation(),
+        ...refreshLoginMutation(),
         onError: (error) => {
             const result = error as unknown as AuthResult;
             result.errors?.map((message) => {
@@ -127,8 +130,8 @@ function RegistrationViewComponent() {
         },
     });
 
-    const markNotStolenMutation = useMutation({
-        ...patchApiVbyVersionRegistrationMarkNotStolenByIdMutation(),
+    const useMarkNotStolenMutation = useMutation({
+        ...markNotStolenMutation(),
         onError: (error) => {
             const result = error as unknown as RegistrationResult;
             result.errors?.map((message) => {
@@ -171,8 +174,8 @@ function RegistrationViewComponent() {
         },
     });
 
-    const markStolenMutation = useMutation({
-        ...patchApiVbyVersionRegistrationMarkStolenByIdMutation(),
+    const useMarkStolenMutation = useMutation({
+        ...markStolenMutation(),
         onError: (error) => {
             const result = error as unknown as RegistrationResult;
             result.errors?.map((message) => {
@@ -236,7 +239,7 @@ function RegistrationViewComponent() {
     async function reportRegistration() {
         if (registration?.isStolen) {
             try {
-                await markNotStolenMutation.mutateAsync({
+                await useMarkNotStolenMutation.mutateAsync({
                     path: { version: '1', id: registrationId },
                     client: localClient,
                 });
@@ -245,7 +248,7 @@ function RegistrationViewComponent() {
             }
         } else {
             try {
-                await markStolenMutation.mutateAsync({
+                await useMarkStolenMutation.mutateAsync({
                     path: { version: '1', id: registrationId },
                     client: localClient,
                 });
@@ -297,9 +300,27 @@ function RegistrationViewComponent() {
                 </div>
             ) : registration ? (
                 <div>
-                    <Carousel groupSize={1} circular>
+                    <Carousel
+                        groupSize={1}
+                        circular
+                        style={{
+                            maxWidth: isSmall ? '99%' : '70em',
+                            justifySelf: 'center',
+                        }}
+                    >
                         <CarouselViewport>
-                            <CarouselSlider>{/**images here */}</CarouselSlider>
+                            <CarouselSlider>
+                                {registration.images.map((image) => (
+                                    <CarouselCard>
+                                        <Image
+                                            key={image.originalFileName}
+                                            title={image.originalFileName}
+                                            fit='contain'
+                                            src={image.imageUrl}
+                                        />
+                                    </CarouselCard>
+                                ))}
+                            </CarouselSlider>
                         </CarouselViewport>
                         <CarouselNavContainer
                             layout='inline'

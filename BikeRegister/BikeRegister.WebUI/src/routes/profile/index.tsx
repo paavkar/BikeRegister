@@ -5,8 +5,8 @@ import { useAuthStore } from '../../state/authStore';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { createClient } from '../../hey-api/client';
 import {
-    postApiVbyVersionAuthRefreshMutation,
-    getApiVbyVersionUserGetAuthenticatedOptions,
+    refreshLoginMutation,
+    authenticatedUserOptions,
 } from '../../hey-api/@tanstack/react-query.gen';
 import {
     Button,
@@ -52,7 +52,7 @@ function RouteComponent() {
     });
 
     const { data, error } = useQuery({
-        ...getApiVbyVersionUserGetAuthenticatedOptions({
+        ...authenticatedUserOptions({
             client: localClient,
             path: { version: '1' },
         }),
@@ -117,7 +117,7 @@ function RouteComponent() {
     }, [data, error]);
 
     const refreshMutation = useMutation({
-        ...postApiVbyVersionAuthRefreshMutation(),
+        ...refreshLoginMutation(),
         onError: (error) => {
             const result = error as unknown as AuthResult;
             result.errors?.map((message) => {
@@ -145,7 +145,7 @@ function RouteComponent() {
             refreshToken = result.refreshToken!;
 
             queryClient.invalidateQueries({
-                queryKey: getApiVbyVersionUserGetAuthenticatedOptions({
+                queryKey: authenticatedUserOptions({
                     client: localClient,
                     path: { version: '1' },
                 }).queryKey,

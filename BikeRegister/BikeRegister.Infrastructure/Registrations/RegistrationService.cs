@@ -18,7 +18,11 @@ namespace BikeRegister.Infrastructure.Registrations
             var registrationCreated = await repository.AddAsync(registration);
 
             return registrationCreated
-                ? new RegistrationResult { Succeeded = true, Registration = RegistrationDto.FromRegistration(registration) }
+                ? new RegistrationResult
+                {
+                    Succeeded = true,
+                    Registration = RegistrationDto.FromRegistration(registration, [])
+                }
                 : new RegistrationResult { Succeeded = false, Errors = [localizer["AddRegistrationFailed"]] };
         }
 

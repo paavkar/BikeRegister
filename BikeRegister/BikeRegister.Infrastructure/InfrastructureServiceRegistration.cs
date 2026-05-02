@@ -1,6 +1,8 @@
 ﻿using BikeRegister.Application.Auth;
+using BikeRegister.Application.Images;
 using BikeRegister.Application.Registrations;
 using BikeRegister.Infrastructure.Auth;
+using BikeRegister.Infrastructure.Images;
 using BikeRegister.Infrastructure.Persistence;
 using BikeRegister.Infrastructure.Registrations;
 using BikeRegister.Infrastructure.Users;
@@ -31,6 +33,8 @@ namespace BikeRegister.Infrastructure
             services.AddScoped<IRegistrationRepository, RegistrationRepository>();
             services.AddScoped<IRegistrationService, RegistrationService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IImageService, ImageService>();
 
             return services;
         }

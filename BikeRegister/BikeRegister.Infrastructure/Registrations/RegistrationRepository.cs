@@ -1,4 +1,5 @@
 ﻿using BikeRegister.Application.DTOs;
+using BikeRegister.Application.DTOs.Images;
 using BikeRegister.Application.DTOs.Registrations;
 using BikeRegister.Application.DTOs.Users;
 using BikeRegister.Application.Registrations;
@@ -35,6 +36,13 @@ namespace BikeRegister.Infrastructure.Registrations
                 List<RegistrationDto> registrations = await context.Registrations
                     .Where(r => r.UserId == userId)
                     .Select(r => RegistrationDto.FromRegistration(r,
+                            r.Images.Select(i => new ImageDto
+                            {
+                                Id = i.Id,
+                                ImageUrl = i.ImageUrl,
+                                OriginalFileName = i.OriginalFileName,
+                                UploadedAt = i.UploadedAt
+                            }).ToList(),
                         UserDto.FromUser(r.User)))
                     .ToListAsync();
                 return registrations;
@@ -71,6 +79,13 @@ namespace BikeRegister.Infrastructure.Registrations
 
                 List<RegistrationDto> stolen = await query
                     .Select(r => RegistrationDto.FromRegistration(r,
+                            r.Images.Select(i => new ImageDto
+                            {
+                                Id = i.Id,
+                                ImageUrl = i.ImageUrl,
+                                OriginalFileName = i.OriginalFileName,
+                                UploadedAt = i.UploadedAt
+                            }).ToList(),
                         UserDto.FromUser(r.User)))
                     .ToListAsync();
                 return stolen;
@@ -89,6 +104,13 @@ namespace BikeRegister.Infrastructure.Registrations
                 List<RegistrationDto> userStolen = await context.Registrations
                     .Where(r => r.IsStolen && r.UserId == userId)
                     .Select(r => RegistrationDto.FromRegistration(r,
+                            r.Images.Select(i => new ImageDto
+                            {
+                                Id = i.Id,
+                                ImageUrl = i.ImageUrl,
+                                OriginalFileName = i.OriginalFileName,
+                                UploadedAt = i.UploadedAt
+                            }).ToList(),
                         UserDto.FromUser(r.User)))
                     .ToListAsync();
 
@@ -107,8 +129,17 @@ namespace BikeRegister.Infrastructure.Registrations
             {
                 RegistrationDto? registration = await context.Registrations
                     .Where(r => r.Id == id)
-                    .Select(r => RegistrationDto.FromRegistration(r,
-                        UserDto.FromUser(r.User)))
+                    .Select(r =>
+                        RegistrationDto.FromRegistration(r,
+                            r.Images.Select(i => new ImageDto
+                            {
+                                Id = i.Id,
+                                ImageUrl = i.ImageUrl,
+                                OriginalFileName = i.OriginalFileName,
+                                UploadedAt = i.UploadedAt
+                            }).ToList(),
+                            UserDto.FromUser(r.User))
+                    )
                     .FirstOrDefaultAsync();
                 return registration;
             }

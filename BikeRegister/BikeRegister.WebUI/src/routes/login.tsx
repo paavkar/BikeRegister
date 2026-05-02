@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
-    postApiVbyVersionAuthLoginMutation,
-    getApiVbyVersionUserGetAuthenticatedOptions,
+    loginMutation,
+    authenticatedUserOptions,
 } from '../hey-api/@tanstack/react-query.gen';
 import {
     Button,
@@ -59,7 +59,7 @@ function LoginComponent() {
             password: '',
         } as LoginDto,
         onSubmit: async ({ value }) => {
-            await loginMutation.mutateAsync({
+            await useLoginMutation.mutateAsync({
                 body: value,
                 path: { version: '1' },
             });
@@ -67,7 +67,7 @@ function LoginComponent() {
     });
 
     const { data, error } = useQuery({
-        ...getApiVbyVersionUserGetAuthenticatedOptions({
+        ...authenticatedUserOptions({
             client: localClient,
             path: { version: '1' },
         }),
@@ -103,8 +103,8 @@ function LoginComponent() {
         navigate({ to: '/' });
     }, [data, error, accessToken]);
 
-    const loginMutation = useMutation({
-        ...postApiVbyVersionAuthLoginMutation(),
+    const useLoginMutation = useMutation({
+        ...loginMutation(),
         onError: (error) => {
             const result = error as unknown as AuthResult;
             result.errors?.map((message) => {

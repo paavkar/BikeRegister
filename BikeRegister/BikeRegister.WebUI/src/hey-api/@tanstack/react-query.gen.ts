@@ -3,13 +3,13 @@
 import { type DefaultError, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { deleteApiVbyVersionRegistrationDeleteById, deleteApiVbyVersionRegistrationDeleteMultiple, getApiVbyVersionAuthSetup2Fa, getApiVbyVersionRegistrationMyRegistrations, getApiVbyVersionRegistrationSingleById, getApiVbyVersionRegistrationStolen, getApiVbyVersionRegistrationStolenByUserId, getApiVbyVersionRegistrationUserRegistrationsByUserId, getApiVbyVersionUserGetAuthenticated, type Options, patchApiVbyVersionRegistrationMarkNotStolenById, patchApiVbyVersionRegistrationMarkStolenById, patchApiVbyVersionRegistrationUpdateById, postApiVbyVersionAuthDisable2Fa, postApiVbyVersionAuthEnable2Fa, postApiVbyVersionAuthLogin, postApiVbyVersionAuthRefresh, postApiVbyVersionAuthRegister, postApiVbyVersionAuthRevoke, postApiVbyVersionAuthVerify2Fa, postApiVbyVersionRegistrationAdd, postApiVbyVersionUserFinishProfileSetup } from '../sdk.gen';
-import type { DeleteApiVbyVersionRegistrationDeleteByIdData, DeleteApiVbyVersionRegistrationDeleteMultipleData, GetApiVbyVersionAuthSetup2FaData, GetApiVbyVersionRegistrationMyRegistrationsData, GetApiVbyVersionRegistrationSingleByIdData, GetApiVbyVersionRegistrationStolenByUserIdData, GetApiVbyVersionRegistrationStolenData, GetApiVbyVersionRegistrationUserRegistrationsByUserIdData, GetApiVbyVersionUserGetAuthenticatedData, PatchApiVbyVersionRegistrationMarkNotStolenByIdData, PatchApiVbyVersionRegistrationMarkStolenByIdData, PatchApiVbyVersionRegistrationUpdateByIdData, PostApiVbyVersionAuthDisable2FaData, PostApiVbyVersionAuthEnable2FaData, PostApiVbyVersionAuthLoginData, PostApiVbyVersionAuthRefreshData, PostApiVbyVersionAuthRegisterData, PostApiVbyVersionAuthRevokeData, PostApiVbyVersionAuthVerify2FaData, PostApiVbyVersionRegistrationAddData, PostApiVbyVersionUserFinishProfileSetupData } from '../types.gen';
+import { addRegistration, authenticatedUser, deleteMultipleRegistration, deleteRegistration, disable2Fa, eable2Fa, finishProfileSetup, login, markNotStolen, markStolen, myRegistrations, type Options, refreshLogin, register, revokeRefresh, setup2Fa, singleRegistration, stolenRegistrations, stolenUserRegistrations, updateRegistration, uploadRegistrationImages, userRegistrations, verify2Fa } from '../sdk.gen';
+import type { AddRegistrationData, AuthenticatedUserData, DeleteMultipleRegistrationData, DeleteRegistrationData, Disable2FaData, Eable2FaData, FinishProfileSetupData, LoginData, MarkNotStolenData, MarkStolenData, MyRegistrationsData, RefreshLoginData, RegisterData, RevokeRefreshData, Setup2FaData, SingleRegistrationData, StolenRegistrationsData, StolenUserRegistrationsData, UpdateRegistrationData, UploadRegistrationImagesData, UserRegistrationsData, Verify2FaData } from '../types.gen';
 
-export const postApiVbyVersionAuthRegisterMutation = (options?: Partial<Options<PostApiVbyVersionAuthRegisterData>>): UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthRegisterData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthRegisterData>> = {
+export const registerMutation = (options?: Partial<Options<RegisterData>>): UseMutationOptions<unknown, DefaultError, Options<RegisterData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<RegisterData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiVbyVersionAuthRegister({
+            const { data } = await register({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -20,10 +20,10 @@ export const postApiVbyVersionAuthRegisterMutation = (options?: Partial<Options<
     return mutationOptions;
 };
 
-export const postApiVbyVersionAuthLoginMutation = (options?: Partial<Options<PostApiVbyVersionAuthLoginData>>): UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthLoginData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthLoginData>> = {
+export const loginMutation = (options?: Partial<Options<LoginData>>): UseMutationOptions<unknown, DefaultError, Options<LoginData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<LoginData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiVbyVersionAuthLogin({
+            const { data } = await login({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -34,10 +34,10 @@ export const postApiVbyVersionAuthLoginMutation = (options?: Partial<Options<Pos
     return mutationOptions;
 };
 
-export const postApiVbyVersionAuthVerify2FaMutation = (options?: Partial<Options<PostApiVbyVersionAuthVerify2FaData>>): UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthVerify2FaData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthVerify2FaData>> = {
+export const verify2FaMutation = (options?: Partial<Options<Verify2FaData>>): UseMutationOptions<unknown, DefaultError, Options<Verify2FaData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<Verify2FaData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiVbyVersionAuthVerify2Fa({
+            const { data } = await verify2Fa({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -81,11 +81,11 @@ const createQueryKey = <TOptions extends Options>(id: string, options?: TOptions
     return [params];
 };
 
-export const getApiVbyVersionAuthSetup2FaQueryKey = (options: Options<GetApiVbyVersionAuthSetup2FaData>) => createQueryKey('getApiVbyVersionAuthSetup2Fa', options);
+export const setup2FaQueryKey = (options: Options<Setup2FaData>) => createQueryKey('setup2Fa', options);
 
-export const getApiVbyVersionAuthSetup2FaOptions = (options: Options<GetApiVbyVersionAuthSetup2FaData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof getApiVbyVersionAuthSetup2FaQueryKey>>({
+export const setup2FaOptions = (options: Options<Setup2FaData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof setup2FaQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiVbyVersionAuthSetup2Fa({
+        const { data } = await setup2Fa({
             ...options,
             ...queryKey[0],
             signal,
@@ -93,13 +93,13 @@ export const getApiVbyVersionAuthSetup2FaOptions = (options: Options<GetApiVbyVe
         });
         return data;
     },
-    queryKey: getApiVbyVersionAuthSetup2FaQueryKey(options)
+    queryKey: setup2FaQueryKey(options)
 });
 
-export const postApiVbyVersionAuthEnable2FaMutation = (options?: Partial<Options<PostApiVbyVersionAuthEnable2FaData>>): UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthEnable2FaData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthEnable2FaData>> = {
+export const eable2FaMutation = (options?: Partial<Options<Eable2FaData>>): UseMutationOptions<unknown, DefaultError, Options<Eable2FaData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<Eable2FaData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiVbyVersionAuthEnable2Fa({
+            const { data } = await eable2Fa({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -110,10 +110,10 @@ export const postApiVbyVersionAuthEnable2FaMutation = (options?: Partial<Options
     return mutationOptions;
 };
 
-export const postApiVbyVersionAuthDisable2FaMutation = (options?: Partial<Options<PostApiVbyVersionAuthDisable2FaData>>): UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthDisable2FaData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthDisable2FaData>> = {
+export const disable2FaMutation = (options?: Partial<Options<Disable2FaData>>): UseMutationOptions<unknown, DefaultError, Options<Disable2FaData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<Disable2FaData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiVbyVersionAuthDisable2Fa({
+            const { data } = await disable2Fa({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -124,10 +124,10 @@ export const postApiVbyVersionAuthDisable2FaMutation = (options?: Partial<Option
     return mutationOptions;
 };
 
-export const postApiVbyVersionAuthRefreshMutation = (options?: Partial<Options<PostApiVbyVersionAuthRefreshData>>): UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthRefreshData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthRefreshData>> = {
+export const refreshLoginMutation = (options?: Partial<Options<RefreshLoginData>>): UseMutationOptions<unknown, DefaultError, Options<RefreshLoginData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<RefreshLoginData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiVbyVersionAuthRefresh({
+            const { data } = await refreshLogin({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -138,10 +138,10 @@ export const postApiVbyVersionAuthRefreshMutation = (options?: Partial<Options<P
     return mutationOptions;
 };
 
-export const postApiVbyVersionAuthRevokeMutation = (options?: Partial<Options<PostApiVbyVersionAuthRevokeData>>): UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthRevokeData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionAuthRevokeData>> = {
+export const revokeRefreshMutation = (options?: Partial<Options<RevokeRefreshData>>): UseMutationOptions<unknown, DefaultError, Options<RevokeRefreshData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<RevokeRefreshData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiVbyVersionAuthRevoke({
+            const { data } = await revokeRefresh({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -152,10 +152,10 @@ export const postApiVbyVersionAuthRevokeMutation = (options?: Partial<Options<Po
     return mutationOptions;
 };
 
-export const postApiVbyVersionRegistrationAddMutation = (options?: Partial<Options<PostApiVbyVersionRegistrationAddData>>): UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionRegistrationAddData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionRegistrationAddData>> = {
+export const uploadRegistrationImagesMutation = (options?: Partial<Options<UploadRegistrationImagesData>>): UseMutationOptions<unknown, DefaultError, Options<UploadRegistrationImagesData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<UploadRegistrationImagesData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiVbyVersionRegistrationAdd({
+            const { data } = await uploadRegistrationImages({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -166,11 +166,25 @@ export const postApiVbyVersionRegistrationAddMutation = (options?: Partial<Optio
     return mutationOptions;
 };
 
-export const getApiVbyVersionRegistrationMyRegistrationsQueryKey = (options: Options<GetApiVbyVersionRegistrationMyRegistrationsData>) => createQueryKey('getApiVbyVersionRegistrationMyRegistrations', options);
+export const addRegistrationMutation = (options?: Partial<Options<AddRegistrationData>>): UseMutationOptions<unknown, DefaultError, Options<AddRegistrationData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<AddRegistrationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await addRegistration({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
 
-export const getApiVbyVersionRegistrationMyRegistrationsOptions = (options: Options<GetApiVbyVersionRegistrationMyRegistrationsData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof getApiVbyVersionRegistrationMyRegistrationsQueryKey>>({
+export const myRegistrationsQueryKey = (options: Options<MyRegistrationsData>) => createQueryKey('myRegistrations', options);
+
+export const myRegistrationsOptions = (options: Options<MyRegistrationsData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof myRegistrationsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiVbyVersionRegistrationMyRegistrations({
+        const { data } = await myRegistrations({
             ...options,
             ...queryKey[0],
             signal,
@@ -178,14 +192,14 @@ export const getApiVbyVersionRegistrationMyRegistrationsOptions = (options: Opti
         });
         return data;
     },
-    queryKey: getApiVbyVersionRegistrationMyRegistrationsQueryKey(options)
+    queryKey: myRegistrationsQueryKey(options)
 });
 
-export const getApiVbyVersionRegistrationUserRegistrationsByUserIdQueryKey = (options: Options<GetApiVbyVersionRegistrationUserRegistrationsByUserIdData>) => createQueryKey('getApiVbyVersionRegistrationUserRegistrationsByUserId', options);
+export const userRegistrationsQueryKey = (options: Options<UserRegistrationsData>) => createQueryKey('userRegistrations', options);
 
-export const getApiVbyVersionRegistrationUserRegistrationsByUserIdOptions = (options: Options<GetApiVbyVersionRegistrationUserRegistrationsByUserIdData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof getApiVbyVersionRegistrationUserRegistrationsByUserIdQueryKey>>({
+export const userRegistrationsOptions = (options: Options<UserRegistrationsData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof userRegistrationsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiVbyVersionRegistrationUserRegistrationsByUserId({
+        const { data } = await userRegistrations({
             ...options,
             ...queryKey[0],
             signal,
@@ -193,14 +207,14 @@ export const getApiVbyVersionRegistrationUserRegistrationsByUserIdOptions = (opt
         });
         return data;
     },
-    queryKey: getApiVbyVersionRegistrationUserRegistrationsByUserIdQueryKey(options)
+    queryKey: userRegistrationsQueryKey(options)
 });
 
-export const getApiVbyVersionRegistrationStolenQueryKey = (options: Options<GetApiVbyVersionRegistrationStolenData>) => createQueryKey('getApiVbyVersionRegistrationStolen', options);
+export const stolenRegistrationsQueryKey = (options: Options<StolenRegistrationsData>) => createQueryKey('stolenRegistrations', options);
 
-export const getApiVbyVersionRegistrationStolenOptions = (options: Options<GetApiVbyVersionRegistrationStolenData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof getApiVbyVersionRegistrationStolenQueryKey>>({
+export const stolenRegistrationsOptions = (options: Options<StolenRegistrationsData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof stolenRegistrationsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiVbyVersionRegistrationStolen({
+        const { data } = await stolenRegistrations({
             ...options,
             ...queryKey[0],
             signal,
@@ -208,14 +222,14 @@ export const getApiVbyVersionRegistrationStolenOptions = (options: Options<GetAp
         });
         return data;
     },
-    queryKey: getApiVbyVersionRegistrationStolenQueryKey(options)
+    queryKey: stolenRegistrationsQueryKey(options)
 });
 
-export const getApiVbyVersionRegistrationStolenByUserIdQueryKey = (options: Options<GetApiVbyVersionRegistrationStolenByUserIdData>) => createQueryKey('getApiVbyVersionRegistrationStolenByUserId', options);
+export const stolenUserRegistrationsQueryKey = (options: Options<StolenUserRegistrationsData>) => createQueryKey('stolenUserRegistrations', options);
 
-export const getApiVbyVersionRegistrationStolenByUserIdOptions = (options: Options<GetApiVbyVersionRegistrationStolenByUserIdData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof getApiVbyVersionRegistrationStolenByUserIdQueryKey>>({
+export const stolenUserRegistrationsOptions = (options: Options<StolenUserRegistrationsData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof stolenUserRegistrationsQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiVbyVersionRegistrationStolenByUserId({
+        const { data } = await stolenUserRegistrations({
             ...options,
             ...queryKey[0],
             signal,
@@ -223,14 +237,14 @@ export const getApiVbyVersionRegistrationStolenByUserIdOptions = (options: Optio
         });
         return data;
     },
-    queryKey: getApiVbyVersionRegistrationStolenByUserIdQueryKey(options)
+    queryKey: stolenUserRegistrationsQueryKey(options)
 });
 
-export const getApiVbyVersionRegistrationSingleByIdQueryKey = (options: Options<GetApiVbyVersionRegistrationSingleByIdData>) => createQueryKey('getApiVbyVersionRegistrationSingleById', options);
+export const singleRegistrationQueryKey = (options: Options<SingleRegistrationData>) => createQueryKey('singleRegistration', options);
 
-export const getApiVbyVersionRegistrationSingleByIdOptions = (options: Options<GetApiVbyVersionRegistrationSingleByIdData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof getApiVbyVersionRegistrationSingleByIdQueryKey>>({
+export const singleRegistrationOptions = (options: Options<SingleRegistrationData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof singleRegistrationQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiVbyVersionRegistrationSingleById({
+        const { data } = await singleRegistration({
             ...options,
             ...queryKey[0],
             signal,
@@ -238,13 +252,13 @@ export const getApiVbyVersionRegistrationSingleByIdOptions = (options: Options<G
         });
         return data;
     },
-    queryKey: getApiVbyVersionRegistrationSingleByIdQueryKey(options)
+    queryKey: singleRegistrationQueryKey(options)
 });
 
-export const patchApiVbyVersionRegistrationMarkStolenByIdMutation = (options?: Partial<Options<PatchApiVbyVersionRegistrationMarkStolenByIdData>>): UseMutationOptions<unknown, DefaultError, Options<PatchApiVbyVersionRegistrationMarkStolenByIdData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PatchApiVbyVersionRegistrationMarkStolenByIdData>> = {
+export const markStolenMutation = (options?: Partial<Options<MarkStolenData>>): UseMutationOptions<unknown, DefaultError, Options<MarkStolenData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<MarkStolenData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await patchApiVbyVersionRegistrationMarkStolenById({
+            const { data } = await markStolen({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -255,10 +269,10 @@ export const patchApiVbyVersionRegistrationMarkStolenByIdMutation = (options?: P
     return mutationOptions;
 };
 
-export const patchApiVbyVersionRegistrationMarkNotStolenByIdMutation = (options?: Partial<Options<PatchApiVbyVersionRegistrationMarkNotStolenByIdData>>): UseMutationOptions<unknown, DefaultError, Options<PatchApiVbyVersionRegistrationMarkNotStolenByIdData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PatchApiVbyVersionRegistrationMarkNotStolenByIdData>> = {
+export const markNotStolenMutation = (options?: Partial<Options<MarkNotStolenData>>): UseMutationOptions<unknown, DefaultError, Options<MarkNotStolenData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<MarkNotStolenData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await patchApiVbyVersionRegistrationMarkNotStolenById({
+            const { data } = await markNotStolen({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -269,10 +283,10 @@ export const patchApiVbyVersionRegistrationMarkNotStolenByIdMutation = (options?
     return mutationOptions;
 };
 
-export const patchApiVbyVersionRegistrationUpdateByIdMutation = (options?: Partial<Options<PatchApiVbyVersionRegistrationUpdateByIdData>>): UseMutationOptions<unknown, DefaultError, Options<PatchApiVbyVersionRegistrationUpdateByIdData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PatchApiVbyVersionRegistrationUpdateByIdData>> = {
+export const updateRegistrationMutation = (options?: Partial<Options<UpdateRegistrationData>>): UseMutationOptions<unknown, DefaultError, Options<UpdateRegistrationData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<UpdateRegistrationData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await patchApiVbyVersionRegistrationUpdateById({
+            const { data } = await updateRegistration({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -283,10 +297,10 @@ export const patchApiVbyVersionRegistrationUpdateByIdMutation = (options?: Parti
     return mutationOptions;
 };
 
-export const deleteApiVbyVersionRegistrationDeleteByIdMutation = (options?: Partial<Options<DeleteApiVbyVersionRegistrationDeleteByIdData>>): UseMutationOptions<unknown, DefaultError, Options<DeleteApiVbyVersionRegistrationDeleteByIdData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<DeleteApiVbyVersionRegistrationDeleteByIdData>> = {
+export const deleteRegistrationMutation = (options?: Partial<Options<DeleteRegistrationData>>): UseMutationOptions<unknown, DefaultError, Options<DeleteRegistrationData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<DeleteRegistrationData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await deleteApiVbyVersionRegistrationDeleteById({
+            const { data } = await deleteRegistration({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -297,10 +311,10 @@ export const deleteApiVbyVersionRegistrationDeleteByIdMutation = (options?: Part
     return mutationOptions;
 };
 
-export const deleteApiVbyVersionRegistrationDeleteMultipleMutation = (options?: Partial<Options<DeleteApiVbyVersionRegistrationDeleteMultipleData>>): UseMutationOptions<unknown, DefaultError, Options<DeleteApiVbyVersionRegistrationDeleteMultipleData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<DeleteApiVbyVersionRegistrationDeleteMultipleData>> = {
+export const deleteMultipleRegistrationMutation = (options?: Partial<Options<DeleteMultipleRegistrationData>>): UseMutationOptions<unknown, DefaultError, Options<DeleteMultipleRegistrationData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<DeleteMultipleRegistrationData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await deleteApiVbyVersionRegistrationDeleteMultiple({
+            const { data } = await deleteMultipleRegistration({
                 ...options,
                 ...fnOptions,
                 throwOnError: true
@@ -311,11 +325,11 @@ export const deleteApiVbyVersionRegistrationDeleteMultipleMutation = (options?: 
     return mutationOptions;
 };
 
-export const getApiVbyVersionUserGetAuthenticatedQueryKey = (options: Options<GetApiVbyVersionUserGetAuthenticatedData>) => createQueryKey('getApiVbyVersionUserGetAuthenticated', options);
+export const authenticatedUserQueryKey = (options: Options<AuthenticatedUserData>) => createQueryKey('authenticatedUser', options);
 
-export const getApiVbyVersionUserGetAuthenticatedOptions = (options: Options<GetApiVbyVersionUserGetAuthenticatedData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof getApiVbyVersionUserGetAuthenticatedQueryKey>>({
+export const authenticatedUserOptions = (options: Options<AuthenticatedUserData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof authenticatedUserQueryKey>>({
     queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getApiVbyVersionUserGetAuthenticated({
+        const { data } = await authenticatedUser({
             ...options,
             ...queryKey[0],
             signal,
@@ -323,13 +337,13 @@ export const getApiVbyVersionUserGetAuthenticatedOptions = (options: Options<Get
         });
         return data;
     },
-    queryKey: getApiVbyVersionUserGetAuthenticatedQueryKey(options)
+    queryKey: authenticatedUserQueryKey(options)
 });
 
-export const postApiVbyVersionUserFinishProfileSetupMutation = (options?: Partial<Options<PostApiVbyVersionUserFinishProfileSetupData>>): UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionUserFinishProfileSetupData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PostApiVbyVersionUserFinishProfileSetupData>> = {
+export const finishProfileSetupMutation = (options?: Partial<Options<FinishProfileSetupData>>): UseMutationOptions<unknown, DefaultError, Options<FinishProfileSetupData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<FinishProfileSetupData>> = {
         mutationFn: async (fnOptions) => {
-            const { data } = await postApiVbyVersionUserFinishProfileSetup({
+            const { data } = await finishProfileSetup({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

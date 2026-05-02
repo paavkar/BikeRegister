@@ -6,9 +6,11 @@ using BikeRegister.Infrastructure.Persistence;
 using BikeRegister.WebAPI.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -111,9 +113,53 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.SignIn.RequireConfirmedAccount = false;
 });
 
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 104857600; // 100MB
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddSchemaTransformer((schema, context, cancellationToken) =>
+    {
+        // If the schema represents our list of files
+        if (context.JsonTypeInfo.Type == typeof(List<IFormFile>))
+        {
+            schema.Type = Microsoft.OpenApi.JsonSchemaType.Array;
+            schema.Items = new Microsoft.OpenApi.OpenApiSchema
+            {
+                Type = Microsoft.OpenApi.JsonSchemaType.String,
+                Format = "binary"
+            };
+        }
+        return Task.CompletedTask;
+    });
+
+    options.AddOperationTransformer((operation, context, cancellationToken) =>
+    {
+        // Find the operation by ID or check if any parameter is IFormFile
+        if (context.Description.ActionDescriptor.EndpointMetadata.OfType<IEndpointNameMetadata>().Any(x => x.EndpointName == "uploadRegistrationImages"))
+        {
+            IDictionary<string, OpenApiMediaType>? content = operation.RequestBody.Content;
+
+            // Remove the incorrect url-encoded content if it exists
+            if (content.ContainsKey("application/x-www-form-urlencoded"))
+            {
+                IOpenApiSchema? schema = content["application/x-www-form-urlencoded"].Schema;
+                content.Remove("application/x-www-form-urlencoded");
+
+                // Add the correct multipart/form-data content
+                content.Add("multipart/form-data", new Microsoft.OpenApi.OpenApiMediaType
+                {
+                    Schema = schema
+                });
+            }
+        }
+        return Task.CompletedTask;
+    });
+});
 
 builder.Services.AddApiVersioning(options =>
 {

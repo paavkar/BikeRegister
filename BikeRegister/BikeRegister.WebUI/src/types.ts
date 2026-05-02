@@ -45,6 +45,13 @@ export type RegistrationUser = {
     profilePhotoUrl: string | null;
 };
 
+export type Image = {
+    id: string;
+    imageUrl: string;
+    originalFileName: string;
+    uploadedAt: Date;
+};
+
 export type Registration = {
     id: string;
     model: string | null;
@@ -62,6 +69,7 @@ export type Registration = {
     isStolen: boolean;
     dateStolen: Date | null;
     user: RegistrationUser;
+    images: Array<Image>;
 };
 
 export type SearchFilter = {

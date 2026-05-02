@@ -16,6 +16,7 @@ namespace BikeRegister.WebAPI.Controllers
     public class RegistrationController(
         IRegistrationService registrationService) : ControllerBase
     {
+        [EndpointName("addRegistration")]
         [HttpPost("add")]
         public async Task<IActionResult> AddRegistration(CreateRegistrationDto createRegistrationDto)
         {
@@ -28,6 +29,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : CreatedAtAction(nameof(AddRegistration), result);
         }
 
+        [EndpointName("myRegistrations")]
         [HttpGet("my-registrations")]
         public async Task<IActionResult> GetMyRegistrations()
         {
@@ -39,6 +41,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
+        [EndpointName("userRegistrations")]
         [Authorize(Roles = "Admin")]
         [HttpGet("user-registrations/{userId}")]
         public async Task<IActionResult> GetUserRegistrations(string userId)
@@ -50,6 +53,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
+        [EndpointName("stolenRegistrations")]
         [AllowAnonymous]
         [HttpGet("stolen")]
         public async Task<IActionResult> GetStolen([FromQuery] SearchFilter filter)
@@ -61,6 +65,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
+        [EndpointName("stolenUserRegistrations")]
         [HttpGet("stolen/{userId}")]
         public async Task<IActionResult> GetUserStolen(string userId)
         {
@@ -71,6 +76,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
+        [EndpointName("singleRegistration")]
         [AllowAnonymous]
         [HttpGet("single/{id}")]
         public async Task<IActionResult> GetById(string id)
@@ -82,6 +88,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
+        [EndpointName("markStolen")]
         [HttpPatch("mark-stolen/{id}")]
         public async Task<IActionResult> MarkAsStolen(string id)
         {
@@ -94,6 +101,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
+        [EndpointName("markNotStolen")]
         [HttpPatch("mark-not-stolen/{id}")]
         public async Task<IActionResult> MarkNotStolen(string id)
         {
@@ -106,6 +114,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
+        [EndpointName("updateRegistration")]
         [HttpPatch("update/{id}")]
         public async Task<IActionResult> UpdateRegistration(string id, UpdateRegistrationDto update)
         {
@@ -118,6 +127,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
+        [EndpointName("deleteRegistration")]
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteRegistration(string id)
         {
@@ -130,6 +140,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : NoContent();
         }
 
+        [EndpointName("deleteMultipleRegistration")]
         [HttpDelete("delete-multiple")]
         public async Task<IActionResult> DeleteMultipleRegistrations(List<string> ids)
         {
