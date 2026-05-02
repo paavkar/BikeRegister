@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProfileIndexRouteImport } from './routes/profile/index'
+import { Route as ProfileProfileIdRouteImport } from './routes/profile/$profileId'
 import { Route as RegistrationsRegistrationIdIndexRouteImport } from './routes/registrations_/$registrationId/index'
 import { Route as RegistrationsRegistrationIdEditRouteImport } from './routes/registrations_/$registrationId/edit'
 
@@ -28,6 +30,16 @@ const LoginRoute = LoginRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileIndexRoute = ProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileProfileIdRoute = ProfileProfileIdRouteImport.update({
+  id: '/profile/$profileId',
+  path: '/profile/$profileId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegistrationsRegistrationIdIndexRoute =
@@ -47,6 +59,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/profile/$profileId': typeof ProfileProfileIdRoute
+  '/profile/': typeof ProfileIndexRoute
   '/registrations/$registrationId/edit': typeof RegistrationsRegistrationIdEditRoute
   '/registrations/$registrationId/': typeof RegistrationsRegistrationIdIndexRoute
 }
@@ -54,6 +68,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/profile/$profileId': typeof ProfileProfileIdRoute
+  '/profile': typeof ProfileIndexRoute
   '/registrations/$registrationId/edit': typeof RegistrationsRegistrationIdEditRoute
   '/registrations/$registrationId': typeof RegistrationsRegistrationIdIndexRoute
 }
@@ -62,6 +78,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/profile/$profileId': typeof ProfileProfileIdRoute
+  '/profile/': typeof ProfileIndexRoute
   '/registrations_/$registrationId/edit': typeof RegistrationsRegistrationIdEditRoute
   '/registrations_/$registrationId/': typeof RegistrationsRegistrationIdIndexRoute
 }
@@ -71,6 +89,8 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/profile/$profileId'
+    | '/profile/'
     | '/registrations/$registrationId/edit'
     | '/registrations/$registrationId/'
   fileRoutesByTo: FileRoutesByTo
@@ -78,6 +98,8 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/profile/$profileId'
+    | '/profile'
     | '/registrations/$registrationId/edit'
     | '/registrations/$registrationId'
   id:
@@ -85,6 +107,8 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/profile/$profileId'
+    | '/profile/'
     | '/registrations_/$registrationId/edit'
     | '/registrations_/$registrationId/'
   fileRoutesById: FileRoutesById
@@ -93,6 +117,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  ProfileProfileIdRoute: typeof ProfileProfileIdRoute
+  ProfileIndexRoute: typeof ProfileIndexRoute
   RegistrationsRegistrationIdEditRoute: typeof RegistrationsRegistrationIdEditRoute
   RegistrationsRegistrationIdIndexRoute: typeof RegistrationsRegistrationIdIndexRoute
 }
@@ -120,6 +146,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile/': {
+      id: '/profile/'
+      path: '/profile'
+      fullPath: '/profile/'
+      preLoaderRoute: typeof ProfileIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile/$profileId': {
+      id: '/profile/$profileId'
+      path: '/profile/$profileId'
+      fullPath: '/profile/$profileId'
+      preLoaderRoute: typeof ProfileProfileIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/registrations_/$registrationId/': {
       id: '/registrations_/$registrationId/'
       path: '/registrations/$registrationId'
@@ -141,6 +181,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  ProfileProfileIdRoute: ProfileProfileIdRoute,
+  ProfileIndexRoute: ProfileIndexRoute,
   RegistrationsRegistrationIdEditRoute: RegistrationsRegistrationIdEditRoute,
   RegistrationsRegistrationIdIndexRoute: RegistrationsRegistrationIdIndexRoute,
 }

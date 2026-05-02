@@ -1,6 +1,7 @@
 ﻿using BikeRegister.Application.Auth;
 using BikeRegister.Application.DTOs;
 using BikeRegister.Application.DTOs.Users;
+using BikeRegister.Application.Registrations;
 using BikeRegister.Application.ResultModels;
 using BikeRegister.Domain.Users;
 using BikeRegister.SharedKernel.Localization;
@@ -11,7 +12,8 @@ namespace BikeRegister.Infrastructure.Users
 {
     public class UserService(
         UserManager<ApplicationUser> userManager,
-        IStringLocalizer<AppLocalization> localizer) : IUserService
+        IStringLocalizer<AppLocalization> localizer,
+        IRegistrationRepository registrationRepository) : IUserService
     {
         public async Task<UserResult> GetUserByIdAsync(string userId)
         {
@@ -25,10 +27,9 @@ namespace BikeRegister.Infrastructure.Users
                     Errors = [localizer["UserNotFound"]]
                 };
             }
+            List<RegistrationDto>? registrations = await registrationRepository.GetByUserIdAsync(userId);
 
-            // TODO: Fetch user registrations and map to RegistrationDto
-
-            AppUserDto userDto = AppUserDto.FromApplicationUser(user, []);
+            AppUserDto userDto = AppUserDto.FromApplicationUser(user, registrations);
 
             return new UserResult
             {

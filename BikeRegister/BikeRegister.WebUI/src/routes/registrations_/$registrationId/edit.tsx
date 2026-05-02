@@ -1,9 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/registrations_/$registrationId/edit')({
-  component: RegistrationEditComponent,
-})
+    component: RegistrationEditComponent,
+});
 
 function RegistrationEditComponent() {
-  return <div>Hello "/registrations_/$registrationId/edit"!</div>
+    return <div>Hello "/registrations_/$registrationId/edit"!</div>;
 }

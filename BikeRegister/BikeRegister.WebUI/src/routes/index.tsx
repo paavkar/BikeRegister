@@ -44,6 +44,8 @@ function IndexComponent() {
   const isAuthenticated = accessToken !== null;
   const { t } = useTranslation();
 
+  document.title = "BikeRegister";
+
   const localClient = createClient({
     baseUrl: 'https://localhost:26786/',
     headers: {
@@ -96,6 +98,7 @@ function IndexComponent() {
     if (data) {
       const result = data as unknown as RegistrationResult;
       setRegistrations(result.registrations ?? [])
+      document.title = "BikeRegister";
     }
   }, [data, error])
 

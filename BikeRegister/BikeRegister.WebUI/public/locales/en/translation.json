@@ -67,5 +67,17 @@
     "ownerDetails": "Owner's details",
     "name": "Name",
     "phoneNumber": "Phone number",
-    "editRegistration": "Edit"
+    "editRegistration": "Edit",
+    "helloUser": "Hello",
+    "markNotStolenSuccess": "Registration has been reported as not stolen successfully",
+    "markStolenSuccess": "Registration has been reported as stolen successfully",
+    "reportStolen": "Report as stolen",
+    "reportNotStolen": "Report not stolen",
+    "reportStolenFailed": "Reporting as stolen failed",
+    "reportStolenSuccess": "Reporting as stolen succeeded",
+    "reportNotStolenFailed": "Reporting as not stolen failed",
+    "reportNotStolenSuccess": "Reporting as not stolen succeeded",
+    "refreshFailed": "Login refresh failed",
+    "registrationFetchFail": "Fetching registration failed",
+    "registrationNotFound": "404 - Registration not found"
 }

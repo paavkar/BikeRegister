@@ -1,25 +1,25 @@
 const defaultRegions: Record<string, string> = {
-  fi: "FI",
-  en: "GB",
-  sv: "SE",
-  de: "DE",
-  fr: "FR",
-  es: "ES",
+    fi: 'FI',
+    en: 'GB',
+    sv: 'SE',
+    de: 'DE',
+    fr: 'FR',
+    es: 'ES',
 };
 
 export function getFullLocale() {
-  const raw = navigator.languages?.[0] ?? navigator.language;
+    const raw = navigator.languages?.[0] ?? navigator.language;
 
-  if (raw.includes("-")) {
-    return raw;
-  }
+    if (raw.includes('-')) {
+        return raw;
+    }
 
-  const lang = raw.toLowerCase();
-  const region = defaultRegions[lang];
+    const lang = raw.toLowerCase();
+    const region = defaultRegions[lang];
 
-  if (region) {
-    return `${lang}-${region}`;
-  }
+    if (region) {
+        return `${lang}-${region}`;
+    }
 
-  return `${lang}-${lang.toUpperCase()}`;
+    return `${lang}-${lang.toUpperCase()}`;
 }

@@ -25,6 +25,7 @@ import {
   type CheckboxOnChangeData,
   Textarea,
 } from "@fluentui/react-components";
+import { ColourPicker } from './colourPicker';
 import { DatePicker } from "@fluentui/react-datepicker-compat";
 import { useTranslation } from 'react-i18next';
 import { useForm } from '@tanstack/react-form';
@@ -75,7 +76,7 @@ export function CreateRegistration() {
             )
             })
         },
-        onSuccess: (data) => {
+        onSuccess: (_data) => {
             document.getElementById('addRegisterClose')?.click()
         }
     })
@@ -109,7 +110,7 @@ export function CreateRegistration() {
     const refreshMutation = useMutation({
         ...postApiVbyVersionAuthRefreshMutation(),
         onError: (error) => {
-            const result = error as unknown as RegistrationResult;
+            const result = error as unknown as AuthResult;
             result.errors?.map((message) => {
             dispatchToast(
                 <Toast>
@@ -119,7 +120,7 @@ export function CreateRegistration() {
                                 <Link>{t('dismiss')}</Link>
                             </ToastTrigger>
                         }>
-                        {t('addRegistrationFailed')}
+                        {t('refreshFailed')}
                     </ToastTitle>
                     <ToastBody key={message}>{message}</ToastBody>
                 </Toast>,
@@ -270,12 +271,10 @@ export function CreateRegistration() {
                         <div style={{ display: "flex", flexDirection: "column",
                             maxWidth: "20em" }}>
                             <Field required label={t('primaryColour')}>
-                                <Input
-                                    id={field.name}
-                                    name={field.name}
-                                    value={field.state.value}
-                                    type='text'
-                                    onChange={(e) => field.handleChange(e.target.value)} />
+                                <ColourPicker 
+                                    value={field.state.value} 
+                                    onChange={(newHex) => field.handleChange(newHex)} 
+                                />
                             </Field>
                         </div>
                     )}
@@ -285,12 +284,10 @@ export function CreateRegistration() {
                         <div style={{ display: "flex", flexDirection: "column",
                             maxWidth: "20em" }}>
                             <Field required label={t('secondaryColour')}>
-                                <Input
-                                    id={field.name}
-                                    name={field.name}
-                                    value={field.state.value}
-                                    type='text'
-                                    onChange={(e) => field.handleChange(e.target.value)} />
+                               <ColourPicker 
+                                    value={field.state.value} 
+                                    onChange={(newHex) => field.handleChange(newHex)} 
+                                />
                             </Field>
                         </div>
                     )}

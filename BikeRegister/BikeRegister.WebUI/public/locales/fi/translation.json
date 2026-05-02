@@ -67,5 +67,17 @@
     "ownerDetails": "Omistajan tiedot",
     "name": "Nimi",
     "phoneNumber": "Puhelinnumero",
-    "editRegistration": "Muokkaa"
+    "editRegistration": "Muokkaa",
+    "helloUser": "Terve",
+    "markNotStolenSuccess": "Rekisteriote on raportoitu ei-varastetuksi",
+    "markStolenSuccess": "Rekisteriote on raportoitu varastetuksi onnistuneesti",
+    "reportStolen": "Raportoi varastetuksi",
+    "reportNotStolen": "Raportoi ei-varastetuksi",
+    "reportStolenFailed": "Varastetuksi raportointi epäonnistui",
+    "reportStolenSuccess": "Varastetuksi raportointi onnistui",
+    "reportNotStolenFailed": "Ei-varastetuksi raportointi epäonnistui",
+    "reportNotStolenSuccess": "Ei-varastetuksi raportointi onnistui",
+    "refreshFailed": "Sisäänkirjautumisen päivitys epäonnistui",
+    "registrationFetchFail": "Rekisteriotteen hakeminen epäonnistui",
+    "registrationNotFound": "404 - Rekisteriotetta ei löytynyt"
 }

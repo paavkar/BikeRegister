@@ -3,23 +3,23 @@ type BaseResult = {
     statusCode: number | null;
     message: string | null;
     errors: Array<string> | null;
-}
+};
 
 export type AuthResult = BaseResult & {
-  accessToken: string | null;
-  refreshToken: string | null;
-  twoFactorRequired: boolean;
-  twoFactorUri: string | null;
-}
+    accessToken: string | null;
+    refreshToken: string | null;
+    twoFactorRequired: boolean;
+    twoFactorUri: string | null;
+};
 
 export type UserResult = BaseResult & {
     user: AppUser | null;
-}
+};
 
 export type RegistrationResult = BaseResult & {
     registration: Registration | null;
     registrations: Array<Registration> | null;
-}
+};
 
 export type AppUser = {
     id: string;
@@ -34,7 +34,7 @@ export type AppUser = {
     registeredDate: Date;
 
     registrations: Array<Registration>;
-}
+};
 
 export type RegistrationUser = {
     id: string;
@@ -43,7 +43,7 @@ export type RegistrationUser = {
     phoneNumber: string | null;
     name: string;
     profilePhotoUrl: string | null;
-}
+};
 
 export type Registration = {
     id: string;
@@ -62,7 +62,7 @@ export type Registration = {
     isStolen: boolean;
     dateStolen: Date | null;
     user: RegistrationUser;
-}
+};
 
 export type SearchFilter = {
     Brand?: string;
