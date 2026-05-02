@@ -15,6 +15,7 @@ namespace BikeRegister.WebAPI.Controllers
     public class UserController(
         IUserService userService) : ControllerBase
     {
+        [EndpointName("authenticatedUser")]
         [HttpGet("get-authenticated")]
         public async Task<IActionResult> GetUserInfo()
         {
@@ -26,6 +27,7 @@ namespace BikeRegister.WebAPI.Controllers
                 : Ok(result);
         }
 
+        [EndpointName("finishProfileSetup")]
         [HttpPost("finish-profile-setup")]
         public async Task<IActionResult> FinishProfileSetup(FinishProfileSetupDto finishDto)
         {

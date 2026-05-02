@@ -71,7 +71,7 @@ export type VerifyTwoFactorDto = {
     code?: string;
 };
 
-export type PostApiVbyVersionAuthRegisterData = {
+export type RegisterData = {
     body: RegisterDto;
     path: {
         version: string;
@@ -80,14 +80,14 @@ export type PostApiVbyVersionAuthRegisterData = {
     url: '/api/v{version}/Auth/register';
 };
 
-export type PostApiVbyVersionAuthRegisterResponses = {
+export type RegisterResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type PostApiVbyVersionAuthLoginData = {
+export type LoginData = {
     body: LoginDto;
     path: {
         version: string;
@@ -96,14 +96,14 @@ export type PostApiVbyVersionAuthLoginData = {
     url: '/api/v{version}/Auth/login';
 };
 
-export type PostApiVbyVersionAuthLoginResponses = {
+export type LoginResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type PostApiVbyVersionAuthVerify2FaData = {
+export type Verify2FaData = {
     body: TwoFactorDto;
     path: {
         version: string;
@@ -112,14 +112,14 @@ export type PostApiVbyVersionAuthVerify2FaData = {
     url: '/api/v{version}/Auth/verify-2fa';
 };
 
-export type PostApiVbyVersionAuthVerify2FaResponses = {
+export type Verify2FaResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type GetApiVbyVersionAuthSetup2FaData = {
+export type Setup2FaData = {
     body?: never;
     path: {
         version: string;
@@ -128,14 +128,14 @@ export type GetApiVbyVersionAuthSetup2FaData = {
     url: '/api/v{version}/Auth/setup-2fa';
 };
 
-export type GetApiVbyVersionAuthSetup2FaResponses = {
+export type Setup2FaResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type PostApiVbyVersionAuthEnable2FaData = {
+export type Eable2FaData = {
     body: VerifyTwoFactorDto;
     path: {
         version: string;
@@ -144,14 +144,14 @@ export type PostApiVbyVersionAuthEnable2FaData = {
     url: '/api/v{version}/Auth/enable-2fa';
 };
 
-export type PostApiVbyVersionAuthEnable2FaResponses = {
+export type Eable2FaResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type PostApiVbyVersionAuthDisable2FaData = {
+export type Disable2FaData = {
     body?: never;
     path: {
         version: string;
@@ -160,14 +160,14 @@ export type PostApiVbyVersionAuthDisable2FaData = {
     url: '/api/v{version}/Auth/disable-2fa';
 };
 
-export type PostApiVbyVersionAuthDisable2FaResponses = {
+export type Disable2FaResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type PostApiVbyVersionAuthRefreshData = {
+export type RefreshLoginData = {
     body?: null | JwtRefreshRequest;
     path: {
         version: string;
@@ -176,14 +176,14 @@ export type PostApiVbyVersionAuthRefreshData = {
     url: '/api/v{version}/Auth/refresh';
 };
 
-export type PostApiVbyVersionAuthRefreshResponses = {
+export type RefreshLoginResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type PostApiVbyVersionAuthRevokeData = {
+export type RevokeRefreshData = {
     body?: null | JwtRefreshRequest;
     path: {
         version: string;
@@ -192,14 +192,33 @@ export type PostApiVbyVersionAuthRevokeData = {
     url: '/api/v{version}/Auth/revoke';
 };
 
-export type PostApiVbyVersionAuthRevokeResponses = {
+export type RevokeRefreshResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type PostApiVbyVersionRegistrationAddData = {
+export type UploadRegistrationImagesData = {
+    body: {
+        images?: Array<Blob | File>;
+    };
+    path: {
+        registrationId: string;
+        version: string;
+    };
+    query?: never;
+    url: '/api/v{version}/Image/upload/{registrationId}';
+};
+
+export type UploadRegistrationImagesResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type AddRegistrationData = {
     body: CreateRegistrationDto;
     path: {
         version: string;
@@ -208,14 +227,14 @@ export type PostApiVbyVersionRegistrationAddData = {
     url: '/api/v{version}/Registration/add';
 };
 
-export type PostApiVbyVersionRegistrationAddResponses = {
+export type AddRegistrationResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type GetApiVbyVersionRegistrationMyRegistrationsData = {
+export type MyRegistrationsData = {
     body?: never;
     path: {
         version: string;
@@ -224,14 +243,14 @@ export type GetApiVbyVersionRegistrationMyRegistrationsData = {
     url: '/api/v{version}/Registration/my-registrations';
 };
 
-export type GetApiVbyVersionRegistrationMyRegistrationsResponses = {
+export type MyRegistrationsResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type GetApiVbyVersionRegistrationUserRegistrationsByUserIdData = {
+export type UserRegistrationsData = {
     body?: never;
     path: {
         userId: string;
@@ -241,14 +260,14 @@ export type GetApiVbyVersionRegistrationUserRegistrationsByUserIdData = {
     url: '/api/v{version}/Registration/user-registrations/{userId}';
 };
 
-export type GetApiVbyVersionRegistrationUserRegistrationsByUserIdResponses = {
+export type UserRegistrationsResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type GetApiVbyVersionRegistrationStolenData = {
+export type StolenRegistrationsData = {
     body?: never;
     path: {
         version: string;
@@ -261,14 +280,14 @@ export type GetApiVbyVersionRegistrationStolenData = {
     url: '/api/v{version}/Registration/stolen';
 };
 
-export type GetApiVbyVersionRegistrationStolenResponses = {
+export type StolenRegistrationsResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type GetApiVbyVersionRegistrationStolenByUserIdData = {
+export type StolenUserRegistrationsData = {
     body?: never;
     path: {
         userId: string;
@@ -278,14 +297,14 @@ export type GetApiVbyVersionRegistrationStolenByUserIdData = {
     url: '/api/v{version}/Registration/stolen/{userId}';
 };
 
-export type GetApiVbyVersionRegistrationStolenByUserIdResponses = {
+export type StolenUserRegistrationsResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type GetApiVbyVersionRegistrationSingleByIdData = {
+export type SingleRegistrationData = {
     body?: never;
     path: {
         id: string;
@@ -295,14 +314,14 @@ export type GetApiVbyVersionRegistrationSingleByIdData = {
     url: '/api/v{version}/Registration/single/{id}';
 };
 
-export type GetApiVbyVersionRegistrationSingleByIdResponses = {
+export type SingleRegistrationResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type PatchApiVbyVersionRegistrationMarkStolenByIdData = {
+export type MarkStolenData = {
     body?: never;
     path: {
         id: string;
@@ -312,14 +331,14 @@ export type PatchApiVbyVersionRegistrationMarkStolenByIdData = {
     url: '/api/v{version}/Registration/mark-stolen/{id}';
 };
 
-export type PatchApiVbyVersionRegistrationMarkStolenByIdResponses = {
+export type MarkStolenResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type PatchApiVbyVersionRegistrationMarkNotStolenByIdData = {
+export type MarkNotStolenData = {
     body?: never;
     path: {
         id: string;
@@ -329,14 +348,14 @@ export type PatchApiVbyVersionRegistrationMarkNotStolenByIdData = {
     url: '/api/v{version}/Registration/mark-not-stolen/{id}';
 };
 
-export type PatchApiVbyVersionRegistrationMarkNotStolenByIdResponses = {
+export type MarkNotStolenResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type PatchApiVbyVersionRegistrationUpdateByIdData = {
+export type UpdateRegistrationData = {
     body: UpdateRegistrationDto;
     path: {
         id: string;
@@ -346,14 +365,14 @@ export type PatchApiVbyVersionRegistrationUpdateByIdData = {
     url: '/api/v{version}/Registration/update/{id}';
 };
 
-export type PatchApiVbyVersionRegistrationUpdateByIdResponses = {
+export type UpdateRegistrationResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type DeleteApiVbyVersionRegistrationDeleteByIdData = {
+export type DeleteRegistrationData = {
     body?: never;
     path: {
         id: string;
@@ -363,14 +382,14 @@ export type DeleteApiVbyVersionRegistrationDeleteByIdData = {
     url: '/api/v{version}/Registration/delete/{id}';
 };
 
-export type DeleteApiVbyVersionRegistrationDeleteByIdResponses = {
+export type DeleteRegistrationResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type DeleteApiVbyVersionRegistrationDeleteMultipleData = {
+export type DeleteMultipleRegistrationData = {
     body: Array<string>;
     path: {
         version: string;
@@ -379,14 +398,14 @@ export type DeleteApiVbyVersionRegistrationDeleteMultipleData = {
     url: '/api/v{version}/Registration/delete-multiple';
 };
 
-export type DeleteApiVbyVersionRegistrationDeleteMultipleResponses = {
+export type DeleteMultipleRegistrationResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type GetApiVbyVersionUserGetAuthenticatedData = {
+export type AuthenticatedUserData = {
     body?: never;
     path: {
         version: string;
@@ -395,14 +414,14 @@ export type GetApiVbyVersionUserGetAuthenticatedData = {
     url: '/api/v{version}/User/get-authenticated';
 };
 
-export type GetApiVbyVersionUserGetAuthenticatedResponses = {
+export type AuthenticatedUserResponses = {
     /**
      * OK
      */
     200: unknown;
 };
 
-export type PostApiVbyVersionUserFinishProfileSetupData = {
+export type FinishProfileSetupData = {
     body: FinishProfileSetupDto;
     path: {
         version: string;
@@ -411,7 +430,7 @@ export type PostApiVbyVersionUserFinishProfileSetupData = {
     url: '/api/v{version}/User/finish-profile-setup';
 };
 
-export type PostApiVbyVersionUserFinishProfileSetupResponses = {
+export type FinishProfileSetupResponses = {
     /**
      * OK
      */

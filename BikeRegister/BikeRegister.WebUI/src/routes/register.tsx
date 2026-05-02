@@ -1,8 +1,8 @@
 import { revalidateLogic, useForm } from '@tanstack/react-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
-    postApiVbyVersionAuthRegisterMutation,
-    getApiVbyVersionUserGetAuthenticatedOptions,
+    registerMutation,
+    authenticatedUserOptions,
 } from '../hey-api/@tanstack/react-query.gen';
 import { z } from 'zod';
 import {
@@ -93,7 +93,7 @@ function RegisterComponent() {
     });
 
     const { data, error } = useQuery({
-        ...getApiVbyVersionUserGetAuthenticatedOptions({
+        ...authenticatedUserOptions({
             client: localClient,
             path: { version: '1' },
         }),
@@ -130,7 +130,7 @@ function RegisterComponent() {
     }, [data, error, accessToken]);
 
     const register = useMutation({
-        ...postApiVbyVersionAuthRegisterMutation(),
+        ...registerMutation(),
         onError: (error) => {
             const result = error as unknown as AuthResult;
             result.errors?.map((message) => {
