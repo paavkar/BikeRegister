@@ -577,7 +577,15 @@ function RouteComponent() {
                                         {element.isStolen
                                             ? new Date(
                                                   `${element.dateStolen}`,
-                                              ).toDateString()
+                                              ).toLocaleDateString(
+                                                  getFullLocale(),
+                                                  {
+                                                      weekday: 'long',
+                                                      year: 'numeric',
+                                                      month: 'long',
+                                                      day: 'numeric',
+                                                  },
+                                              )
                                             : t('notStolen')}
                                     </TableCell>
                                     <TableCell>

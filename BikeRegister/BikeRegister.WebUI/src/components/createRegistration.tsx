@@ -233,8 +233,9 @@ export function CreateRegistration() {
     });
 
     const removeFile = (indexToRemove: number) => {
-        setSelectedFiles((prevFiles) =>
-            prevFiles.filter((_, index) => index !== indexToRemove),
+        setSelectedFiles(
+            (prevFiles) =>
+                prevFiles.filter((_, index) => index !== indexToRemove) ?? [],
         );
     };
 
@@ -244,7 +245,7 @@ export function CreateRegistration() {
                 style={{
                     display: 'flex',
                     gap: '20px',
-                    overflowX: 'scroll',
+                    overflowX: 'auto',
                     padding: '20px',
                     maxWidth: isSmall ? '17em' : '35em',
                 }}
@@ -269,6 +270,7 @@ export function CreateRegistration() {
                                 key={index}
                                 src={imageUrl}
                                 alt={file.name}
+                                title={file.name}
                                 width={200}
                                 height={200}
                                 fit='cover'
@@ -306,9 +308,7 @@ export function CreateRegistration() {
                     }}
                 >
                     <Field>
-                        <div>
-                            <FilePreview />
-                        </div>
+                        <FilePreview />
                         <input
                             id='imageInput'
                             hidden
@@ -379,7 +379,7 @@ export function CreateRegistration() {
                                     maxWidth: '20em',
                                 }}
                             >
-                                <Field required label={t('modelYear')}>
+                                <Field label={t('modelYear')}>
                                     <Input
                                         id={field.name}
                                         name={field.name}

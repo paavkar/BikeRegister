@@ -1,6 +1,5 @@
 ﻿using Azure;
 using Azure.Core.Pipeline;
-using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using BikeRegister.Application.DTOs.Images;
@@ -42,8 +41,6 @@ namespace BikeRegister.Infrastructure.Images
                 HttpClient httpClient = new(handler);
                 HttpClientTransport transport = new(httpClient);
                 BlobClientOptions options = new() { Transport = transport };
-                Uri serviceUri = new($"https://127.0.0.1:10000/{AccountName}");
-                StorageSharedKeyCredential cred = new(AccountName, AccountKey);
                 BlobServiceClient blobServiceClient = new(ConnectionString, options);
                 return blobServiceClient.GetBlobContainerClient(ContainerName);
             }

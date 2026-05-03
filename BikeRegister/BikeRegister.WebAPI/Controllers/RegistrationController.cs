@@ -81,7 +81,13 @@ namespace BikeRegister.WebAPI.Controllers
         [HttpGet("single/{id}")]
         public async Task<IActionResult> GetById(string id)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
             RegistrationResult result = await registrationService.GetByIdAsync(id);
+
+            if (result.Succeeded && !result.Registration.IsStolen && string.IsNullOrWhiteSpace(userId))
+            {
+                return Unauthorized();
+            }
 
             return !result.Succeeded
                 ? NotFound(result)

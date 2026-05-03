@@ -303,16 +303,16 @@ function RegistrationViewComponent() {
                         groupSize={1}
                         circular
                         style={{
-                            maxWidth: isSmall ? '99%' : '70em',
+                            maxWidth: isSmall ? '99%' : '30em',
                             justifySelf: 'center',
                         }}
                     >
                         <CarouselViewport>
                             <CarouselSlider>
                                 {registration.images.map((image) => (
-                                    <CarouselCard>
+                                    <CarouselCard key={image.id}>
                                         <Image
-                                            key={image.originalFileName}
+                                            key={image.id}
                                             title={image.originalFileName}
                                             fit='contain'
                                             src={image.imageUrl}
@@ -419,23 +419,6 @@ function RegistrationViewComponent() {
                                     gap: isSmall ? '1em' : '5em',
                                 }}
                             >
-                                <Text size={500} style={{ width: '8em' }}>
-                                    {t('model')}
-                                </Text>
-                                {!isSmall ? <Divider vertical /> : null}
-                                <Text size={500} style={{ width: '10em' }}>
-                                    {registration?.model ?? 'N/A'}
-                                </Text>
-                                {isSmall ? <Divider /> : null}
-                            </div>
-
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: isSmall ? 'column' : 'row',
-                                    gap: isSmall ? '1em' : '5em',
-                                }}
-                            >
                                 <Text
                                     size={500}
                                     style={{
@@ -448,6 +431,23 @@ function RegistrationViewComponent() {
                                 {!isSmall ? <Divider vertical /> : null}
                                 <Text size={500} style={{ width: '10em' }}>
                                     {registration?.brand}
+                                </Text>
+                                {isSmall ? <Divider /> : null}
+                            </div>
+
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: isSmall ? 'column' : 'row',
+                                    gap: isSmall ? '1em' : '5em',
+                                }}
+                            >
+                                <Text size={500} style={{ width: '8em' }}>
+                                    {t('model')}
+                                </Text>
+                                {!isSmall ? <Divider vertical /> : null}
+                                <Text size={500} style={{ width: '10em' }}>
+                                    {registration?.model ?? 'N/A'}
                                 </Text>
                                 {isSmall ? <Divider /> : null}
                             </div>
@@ -684,7 +684,12 @@ function RegistrationViewComponent() {
                                     <Text size={500} style={{ width: '10em' }}>
                                         {new Date(
                                             `${registration.dateStolen}`,
-                                        ).toDateString()}
+                                        ).toLocaleDateString(getFullLocale(), {
+                                            weekday: 'long',
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                        })}
                                     </Text>
                                 </div>
                             ) : null}

@@ -59,6 +59,8 @@ function RootComponent() {
             },
             path: { version: '1' },
         });
+
+        navigate({ to: '/' });
     };
 
     const changeLanguage = (lng: string) => {

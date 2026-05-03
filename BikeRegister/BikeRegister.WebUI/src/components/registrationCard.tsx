@@ -22,6 +22,7 @@ import type { Registration } from '../types';
 import { useNavigate } from '@tanstack/react-router';
 import { ArrowSquareUpRightRegular } from '@fluentui/react-icons';
 import { useMediaQuery } from '../services/useMediaQuery';
+import { getFullLocale } from '../services/localeService';
 
 interface RegistrationProps {
     registration: Registration;
@@ -95,10 +96,18 @@ export function RegistrationCard({ registration }: RegistrationProps) {
                 <Label>
                     {`${registration.brand} ${registration.model ? registration.model : ''}`}
                 </Label>
+                <Label>{registration.serialNumber}</Label>
                 <Label>{registration.city}</Label>
                 <Label>{registration.district}</Label>
                 <Label>
-                    {`${t('stolenOn')} ${new Date(`${registration.dateStolen}`).toDateString()}`}
+                    {`${t('stolenOn')} ${new Date(
+                        `${registration.dateStolen}`,
+                    ).toLocaleDateString(getFullLocale(), {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                    })}`}
                 </Label>
                 <Label>
                     {registration.user.name

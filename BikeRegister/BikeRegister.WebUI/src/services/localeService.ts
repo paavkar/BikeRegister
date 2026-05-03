@@ -8,7 +8,11 @@ const defaultRegions: Record<string, string> = {
 };
 
 export function getFullLocale() {
-    const raw = navigator.languages?.[0] ?? navigator.language;
+    const savedLocale = localStorage.getItem('i18nextLng');
+
+    const raw = savedLocale
+        ? savedLocale
+        : (navigator.languages?.[0] ?? navigator.language);
 
     if (raw.includes('-')) {
         return raw;
