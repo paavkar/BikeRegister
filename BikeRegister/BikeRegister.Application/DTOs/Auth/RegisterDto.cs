@@ -13,5 +13,6 @@ namespace BikeRegister.Application.DTOs
 
         [Required]
         public string Password { get; set; } = string.Empty;
+        public string Origin { get; set; }
     }
 }

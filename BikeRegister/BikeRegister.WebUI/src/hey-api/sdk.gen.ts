@@ -2,7 +2,7 @@
 
 import { type Client, formDataBodySerializer, type Options as Options2, type TDataShape } from './client';
 import { client } from './client.gen';
-import type { AddRegistrationData, AddRegistrationResponses, AuthenticatedUserData, AuthenticatedUserResponses, DeleteMultipleRegistrationData, DeleteMultipleRegistrationResponses, DeleteRegistrationData, DeleteRegistrationResponses, Disable2FaData, Disable2FaResponses, Eable2FaData, Eable2FaResponses, FinishProfileSetupData, FinishProfileSetupResponses, LoginData, LoginResponses, MarkNotStolenData, MarkNotStolenResponses, MarkStolenData, MarkStolenResponses, MyRegistrationsData, MyRegistrationsResponses, RefreshLoginData, RefreshLoginResponses, RegisterData, RegisterResponses, RevokeRefreshData, RevokeRefreshResponses, Setup2FaData, Setup2FaResponses, SingleRegistrationData, SingleRegistrationResponses, StolenRegistrationsData, StolenRegistrationsResponses, StolenUserRegistrationsData, StolenUserRegistrationsResponses, UpdateRegistrationData, UpdateRegistrationResponses, UploadRegistrationImagesData, UploadRegistrationImagesResponses, UserRegistrationsData, UserRegistrationsResponses, Verify2FaData, Verify2FaResponses } from './types.gen';
+import type { AddRegistrationData, AddRegistrationResponses, AuthenticatedUserData, AuthenticatedUserResponses, ConfirmEmailData, ConfirmEmailResponses, DeleteMultipleRegistrationData, DeleteMultipleRegistrationResponses, DeleteRegistrationData, DeleteRegistrationResponses, Disable2FaData, Disable2FaResponses, Eable2FaData, Eable2FaResponses, FinishProfileSetupData, FinishProfileSetupResponses, LoginData, LoginResponses, MarkNotStolenData, MarkNotStolenResponses, MarkStolenData, MarkStolenResponses, MyRegistrationsData, MyRegistrationsResponses, RefreshLoginData, RefreshLoginResponses, RegisterData, RegisterResponses, RevokeRefreshData, RevokeRefreshResponses, Setup2FaData, Setup2FaResponses, SingleRegistrationData, SingleRegistrationResponses, StolenRegistrationsData, StolenRegistrationsResponses, StolenUserRegistrationsData, StolenUserRegistrationsResponses, UpdateRegistrationData, UpdateRegistrationResponses, UploadProfilePhotoData, UploadProfilePhotoResponses, UploadRegistrationImagesData, UploadRegistrationImagesResponses, UserRegistrationsData, UserRegistrationsResponses, Verify2FaData, Verify2FaResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -76,9 +76,28 @@ export const revokeRefresh = <ThrowOnError extends boolean = false>(options: Opt
     }
 });
 
+export const confirmEmail = <ThrowOnError extends boolean = false>(options: Options<ConfirmEmailData, ThrowOnError>) => (options.client ?? client).patch<ConfirmEmailResponses, unknown, ThrowOnError>({
+    url: '/api/v{version}/Auth/confirm-email',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
 export const uploadRegistrationImages = <ThrowOnError extends boolean = false>(options: Options<UploadRegistrationImagesData, ThrowOnError>) => (options.client ?? client).post<UploadRegistrationImagesResponses, unknown, ThrowOnError>({
     ...formDataBodySerializer,
-    url: '/api/v{version}/Image/upload/{registrationId}',
+    url: '/api/v{version}/Image/registration/{registrationId}',
+    ...options,
+    headers: {
+        'Content-Type': null,
+        ...options.headers
+    }
+});
+
+export const uploadProfilePhoto = <ThrowOnError extends boolean = false>(options: Options<UploadProfilePhotoData, ThrowOnError>) => (options.client ?? client).post<UploadProfilePhotoResponses, unknown, ThrowOnError>({
+    ...formDataBodySerializer,
+    url: '/api/v{version}/Image/profile/{userId}',
     ...options,
     headers: {
         'Content-Type': null,

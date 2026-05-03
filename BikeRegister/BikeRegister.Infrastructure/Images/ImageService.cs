@@ -21,7 +21,7 @@ namespace BikeRegister.Infrastructure.Images
         IStringLocalizer<AppLocalization> localizer,
         IImageRepository imageRepository) : IImageService
     {
-        readonly string ConnectionString = configuration["AzureBlobStorage:DefaultConnection"]!;
+        readonly string ConnectionString = configuration["AzureBlobStorage:ConnectionString"]!;
         readonly string ContainerName = configuration["AzureBlobStorage:ContainerName"]!;
         readonly string AccountName = configuration["AzureBlobStorage:AccountName"]!;
         readonly string AccountKey = configuration["AzureBlobStorage:AccountKey"]!;
@@ -44,7 +44,7 @@ namespace BikeRegister.Infrastructure.Images
                 BlobClientOptions options = new() { Transport = transport };
                 Uri serviceUri = new($"https://127.0.0.1:10000/{AccountName}");
                 StorageSharedKeyCredential cred = new(AccountName, AccountKey);
-                BlobServiceClient blobServiceClient = new(serviceUri, cred, options);
+                BlobServiceClient blobServiceClient = new(ConnectionString, options);
                 return blobServiceClient.GetBlobContainerClient(ContainerName);
             }
             else
@@ -54,7 +54,7 @@ namespace BikeRegister.Infrastructure.Images
             }
         }
 
-        public async Task<ImageResult> UploadRegistrationImages(string registrationId, List<SaveImageDto> images)
+        public async Task<ImageResult> UploadRegistrationImagesAsync(string registrationId, List<SaveImageDto> images)
         {
             BlobContainerClient containerClient = GetContainerClient();
 
@@ -98,6 +98,38 @@ namespace BikeRegister.Infrastructure.Images
                 {
                     Succeeded = true
                 };
+        }
+
+        public async Task<ImageResult> UploadProfilePhotoAsync(string userId, SaveProfilePhotoDto image)
+        {
+            BlobContainerClient containerClient = GetContainerClient();
+
+            try
+            {
+                BlobClient blobClient;
+                var blobName = $"{userId}/profile-photo.png";
+
+                blobClient = containerClient.GetBlobClient(blobName);
+                Response<BlobContentInfo> state = await blobClient.UploadAsync(
+                    content: image.StreamContent, overwrite: true);
+
+                var blobUri = blobClient.Uri.ToString();
+
+                return new ImageResult
+                {
+                    Succeeded = true,
+                    BlobUri = blobUri,
+                };
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "There was an error saving the image.");
+                return new ImageResult
+                {
+                    Succeeded = false,
+                    Errors = [localizer["ProfilePhotoError"]]
+                };
+            }
         }
     }
 }

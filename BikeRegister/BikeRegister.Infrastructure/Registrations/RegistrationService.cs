@@ -4,16 +4,31 @@ using BikeRegister.Application.Registrations;
 using BikeRegister.Application.ResultModels;
 using BikeRegister.Domain.Registrations;
 using BikeRegister.SharedKernel.Localization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 
 namespace BikeRegister.Infrastructure.Registrations
 {
     public class RegistrationService(
         IRegistrationRepository repository,
-        IStringLocalizer<AppLocalization> localizer) : IRegistrationService
+        IStringLocalizer<AppLocalization> localizer,
+        ILookupProtector protector,
+        IConfiguration configuration) : IRegistrationService
     {
         public async Task<RegistrationResult> CreateAsync(CreateRegistrationDto registrationDto, string userId)
         {
+            var registrationExists = await repository.RegistrationExistsAsync(registrationDto.SerialNumber);
+
+            if (registrationExists)
+            {
+                return new RegistrationResult
+                {
+                    Succeeded = false,
+                    Errors = [localizer["SerialNumberUnique"]]
+                };
+            }
+
             Registration registration = registrationDto.FormRegistration(userId);
             var registrationCreated = await repository.AddAsync(registration);
 
@@ -80,10 +95,11 @@ namespace BikeRegister.Infrastructure.Registrations
 
         public async Task<RegistrationResult> UpdateStolenStatusAsync(string id, string userId, bool stolen = false)
         {
-            var updated = await repository.UpdateStolenStatusAsync(id, userId, stolen);
+            DateTimeOffset now = DateTimeOffset.UtcNow;
+            var updated = await repository.UpdateStolenStatusAsync(id, userId, now, stolen);
 
             return updated
-                ? new RegistrationResult { Succeeded = true }
+                ? new RegistrationResult { Succeeded = true, RegistrationId = id, DateNow = now }
                 : new RegistrationResult { Succeeded = false, Errors = [localizer["UpdateStolenStatusFailed"]] };
         }
 
@@ -100,7 +116,7 @@ namespace BikeRegister.Infrastructure.Registrations
         {
             var deleted = await repository.DeleteAsync(id, userId);
             return deleted
-                ? new RegistrationResult { Succeeded = true }
+                ? new RegistrationResult { Succeeded = true, RegistrationId = id }
                 : new RegistrationResult { Succeeded = false, Errors = [localizer["DeleteRegistrationFailed"]] };
         }
 

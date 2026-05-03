@@ -5,6 +5,7 @@ namespace BikeRegister.Application.Images
 {
     public interface IImageService
     {
-        Task<ImageResult> UploadRegistrationImages(string registrationId, List<SaveImageDto> iamges);
+        Task<ImageResult> UploadRegistrationImagesAsync(string registrationId, List<SaveImageDto> iamges);
+        Task<ImageResult> UploadProfilePhotoAsync(string userId, SaveProfilePhotoDto image);
     }
 }

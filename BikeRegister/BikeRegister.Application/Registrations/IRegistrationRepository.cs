@@ -9,6 +9,8 @@ namespace BikeRegister.Application.Registrations
         // Create
         Task<bool> AddAsync(Registration registration);
 
+        Task<bool> RegistrationExistsAsync(string serialNumber);
+
         //Read
         Task<List<RegistrationDto>?> GetByUserIdAsync(string userId);
         Task<List<RegistrationDto>?> GetAllStolenAsync(SearchFilter filter);
@@ -16,7 +18,7 @@ namespace BikeRegister.Application.Registrations
         Task<RegistrationDto?> GetByIdAsync(string id);
 
         // Update
-        Task<bool> UpdateStolenStatusAsync(string id, string userId, bool stolen = false);
+        Task<bool> UpdateStolenStatusAsync(string id, string userId, DateTimeOffset now, bool stolen = false);
         Task<bool> UpdateRegistrationAsync(string id, string userId, UpdateRegistrationDto update);
 
         // Delete

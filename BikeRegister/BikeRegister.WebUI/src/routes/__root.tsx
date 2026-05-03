@@ -132,8 +132,13 @@ function RootComponent() {
                                         }}
                                     >
                                         <Persona
-                                            avatar={user?.profilePhotoUrl}
-                                            size='large'
+                                            avatar={{
+                                                image: {
+                                                    src: user?.profilePhotoUrl
+                                                        ? user.profilePhotoUrl
+                                                        : '',
+                                                },
+                                            }}
                                         />
                                         <Label style={{ cursor: 'pointer' }}>
                                             {user?.name || user?.userName}

@@ -16,9 +16,15 @@ export type UserResult = BaseResult & {
     user: AppUser | null;
 };
 
+export type ImageResult = BaseResult & {
+    blobUri: string | null;
+};
+
 export type RegistrationResult = BaseResult & {
     registration: Registration | null;
     registrations: Array<Registration> | null;
+    registrationId: string | null;
+    dateNow: Date | null;
 };
 
 export type AppUser = {

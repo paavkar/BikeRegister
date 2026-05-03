@@ -3,8 +3,8 @@
 import { type DefaultError, queryOptions, type UseMutationOptions } from '@tanstack/react-query';
 
 import { client } from '../client.gen';
-import { addRegistration, authenticatedUser, deleteMultipleRegistration, deleteRegistration, disable2Fa, eable2Fa, finishProfileSetup, login, markNotStolen, markStolen, myRegistrations, type Options, refreshLogin, register, revokeRefresh, setup2Fa, singleRegistration, stolenRegistrations, stolenUserRegistrations, updateRegistration, uploadRegistrationImages, userRegistrations, verify2Fa } from '../sdk.gen';
-import type { AddRegistrationData, AuthenticatedUserData, DeleteMultipleRegistrationData, DeleteRegistrationData, Disable2FaData, Eable2FaData, FinishProfileSetupData, LoginData, MarkNotStolenData, MarkStolenData, MyRegistrationsData, RefreshLoginData, RegisterData, RevokeRefreshData, Setup2FaData, SingleRegistrationData, StolenRegistrationsData, StolenUserRegistrationsData, UpdateRegistrationData, UploadRegistrationImagesData, UserRegistrationsData, Verify2FaData } from '../types.gen';
+import { addRegistration, authenticatedUser, confirmEmail, deleteMultipleRegistration, deleteRegistration, disable2Fa, eable2Fa, finishProfileSetup, login, markNotStolen, markStolen, myRegistrations, type Options, refreshLogin, register, revokeRefresh, setup2Fa, singleRegistration, stolenRegistrations, stolenUserRegistrations, updateRegistration, uploadProfilePhoto, uploadRegistrationImages, userRegistrations, verify2Fa } from '../sdk.gen';
+import type { AddRegistrationData, AuthenticatedUserData, ConfirmEmailData, DeleteMultipleRegistrationData, DeleteRegistrationData, Disable2FaData, Eable2FaData, FinishProfileSetupData, LoginData, MarkNotStolenData, MarkStolenData, MyRegistrationsData, RefreshLoginData, RegisterData, RevokeRefreshData, Setup2FaData, SingleRegistrationData, StolenRegistrationsData, StolenUserRegistrationsData, UpdateRegistrationData, UploadProfilePhotoData, UploadRegistrationImagesData, UserRegistrationsData, Verify2FaData } from '../types.gen';
 
 export const registerMutation = (options?: Partial<Options<RegisterData>>): UseMutationOptions<unknown, DefaultError, Options<RegisterData>> => {
     const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<RegisterData>> = {
@@ -152,10 +152,38 @@ export const revokeRefreshMutation = (options?: Partial<Options<RevokeRefreshDat
     return mutationOptions;
 };
 
+export const confirmEmailMutation = (options?: Partial<Options<ConfirmEmailData>>): UseMutationOptions<unknown, DefaultError, Options<ConfirmEmailData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<ConfirmEmailData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await confirmEmail({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const uploadRegistrationImagesMutation = (options?: Partial<Options<UploadRegistrationImagesData>>): UseMutationOptions<unknown, DefaultError, Options<UploadRegistrationImagesData>> => {
     const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<UploadRegistrationImagesData>> = {
         mutationFn: async (fnOptions) => {
             const { data } = await uploadRegistrationImages({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
+export const uploadProfilePhotoMutation = (options?: Partial<Options<UploadProfilePhotoData>>): UseMutationOptions<unknown, DefaultError, Options<UploadProfilePhotoData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<UploadProfilePhotoData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await uploadProfilePhoto({
                 ...options,
                 ...fnOptions,
                 throwOnError: true

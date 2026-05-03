@@ -2,8 +2,10 @@
 using BikeRegister.Application.DTOs.Images;
 using BikeRegister.Application.Images;
 using BikeRegister.Application.ResultModels;
+using BikeRegister.Domain.Users;
 using BikeRegister.SharedKernel.Localization;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
@@ -15,10 +17,10 @@ namespace BikeRegister.WebAPI.Controllers
     [ApiController]
     public class ImageController(
         IImageService imageService,
-        IStringLocalizer<AppLocalization> localizer) : ControllerBase
+        IStringLocalizer<AppLocalization> localizer, UserManager<ApplicationUser> manag) : ControllerBase
     {
         [EndpointName("uploadRegistrationImages")]
-        [HttpPost("upload/{registrationId}")]
+        [HttpPost("registration/{registrationId}")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadRegistrationImages([FromForm] List<IFormFile> images, string registrationId)
         {
@@ -44,7 +46,36 @@ namespace BikeRegister.WebAPI.Controllers
                 });
             }
 
-            ImageResult result = await imageService.UploadRegistrationImages(registrationId, imagesList);
+            ImageResult result = await imageService.UploadRegistrationImagesAsync(registrationId, imagesList);
+
+            return !result.Succeeded
+                ? BadRequest(result)
+                : Ok(result);
+        }
+
+        [EndpointName("uploadProfilePhoto")]
+        [HttpPost("profile/{userId}")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadProfilePhoto([FromForm] List<IFormFile> images, string userId)
+        {
+            if (images == null || images.Count == 0) return BadRequest("NoImages");
+            if (images.Count > 1) return BadRequest("Max1Image");
+
+            List<SaveProfilePhotoDto> imagesList = [];
+            foreach (IFormFile image in images)
+            {
+                MemoryStream memoryStream = new();
+                await image.CopyToAsync(memoryStream);
+                memoryStream.Position = 0;
+
+                imagesList.Add(new SaveProfilePhotoDto
+                {
+                    OriginalFileName = image.FileName,
+                    StreamContent = memoryStream
+                });
+            }
+
+            ImageResult result = await imageService.UploadProfilePhotoAsync(userId, imagesList[0]);
 
             return !result.Succeeded
                 ? BadRequest(result)

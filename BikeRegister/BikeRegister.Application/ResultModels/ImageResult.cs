@@ -2,5 +2,6 @@
 {
     public class ImageResult : BaseResult
     {
+        public string? BlobUri { get; set; }
     }
 }

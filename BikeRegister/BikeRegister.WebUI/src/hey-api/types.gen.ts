@@ -4,6 +4,11 @@ export type ClientOptions = {
     baseUrl: 'https://localhost:26786/' | (string & {});
 };
 
+export type ConfirmEmailDto = {
+    userId?: string;
+    code?: string;
+};
+
 export type CreateRegistrationDto = {
     model?: null | string;
     brand?: string;
@@ -45,6 +50,7 @@ export type RegisterDto = {
     email: string;
     userName: string;
     password: string;
+    origin?: string;
 };
 
 export type TwoFactorDto = {
@@ -199,6 +205,22 @@ export type RevokeRefreshResponses = {
     200: unknown;
 };
 
+export type ConfirmEmailData = {
+    body: ConfirmEmailDto;
+    path: {
+        version: string;
+    };
+    query?: never;
+    url: '/api/v{version}/Auth/confirm-email';
+};
+
+export type ConfirmEmailResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
 export type UploadRegistrationImagesData = {
     body: {
         images?: Array<Blob | File>;
@@ -208,10 +230,29 @@ export type UploadRegistrationImagesData = {
         version: string;
     };
     query?: never;
-    url: '/api/v{version}/Image/upload/{registrationId}';
+    url: '/api/v{version}/Image/registration/{registrationId}';
 };
 
 export type UploadRegistrationImagesResponses = {
+    /**
+     * OK
+     */
+    200: unknown;
+};
+
+export type UploadProfilePhotoData = {
+    body: {
+        images?: Array<Blob | File>;
+    };
+    path: {
+        userId: string;
+        version: string;
+    };
+    query?: never;
+    url: '/api/v{version}/Image/profile/{userId}';
+};
+
+export type UploadProfilePhotoResponses = {
     /**
      * OK
      */

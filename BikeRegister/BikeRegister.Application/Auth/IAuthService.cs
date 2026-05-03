@@ -14,5 +14,7 @@ namespace BikeRegister.Application.Auth
         Task<AuthResult> SetupTwoFactorAsync(string userId);
         Task<AuthResult> EnableTwoFactorAsync(string userId, VerifyTwoFactorDto model);
         Task<AuthResult> DisableTwoFactorAsync(string userId);
+
+        Task<AuthResult> ConfirmEmailAsync(string userId, string code);
     }
 }

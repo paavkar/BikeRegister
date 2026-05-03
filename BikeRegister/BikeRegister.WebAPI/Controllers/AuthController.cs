@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using BikeRegister.Application.Auth;
 using BikeRegister.Application.DTOs;
+using BikeRegister.Application.DTOs.Auth;
 using BikeRegister.Application.ResultModels;
 using BikeRegister.Infrastructure.Auth;
 using BikeRegister.SharedKernel.Localization;
@@ -227,6 +228,22 @@ namespace BikeRegister.WebAPI.Controllers
             }
 
             return Ok(new BaseResult { Succeeded = true, Message = localizer["RefreshRevoked"] });
+        }
+
+        [EndpointName("confirmEmail")]
+        [HttpPatch("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.UserId) || string.IsNullOrWhiteSpace(dto.Code))
+            {
+                return BadRequest(localizer["CodeOrUserIdMissing"]);
+            }
+
+            AuthResult result = await authService.ConfirmEmailAsync(dto.UserId, dto.Code);
+
+            return !result.Succeeded
+                ? BadRequest(result)
+                : Ok(result);
         }
     }
 }

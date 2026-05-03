@@ -29,6 +29,20 @@ namespace BikeRegister.Infrastructure.Registrations
             }
         }
 
+        public async Task<bool> RegistrationExistsAsync(string serialNumber)
+        {
+            try
+            {
+                var exists = context.Registrations.Any(r => r.SerialNumber.Equals(serialNumber));
+                return exists;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while checking registration existance.");
+                return true;
+            }
+        }
+
         public async Task<List<RegistrationDto>?> GetByUserIdAsync(string userId)
         {
             try
@@ -150,11 +164,10 @@ namespace BikeRegister.Infrastructure.Registrations
             }
         }
 
-        public async Task<bool> UpdateStolenStatusAsync(string id, string userId, bool stolen = false)
+        public async Task<bool> UpdateStolenStatusAsync(string id, string userId, DateTimeOffset now, bool stolen = false)
         {
             try
             {
-                DateTimeOffset dateNow = DateTimeOffset.UtcNow;
                 var rowsAffected = await context.Registrations
                     .Where(r => r.Id == id)
                     .ExecuteUpdateAsync(r =>
@@ -162,7 +175,7 @@ namespace BikeRegister.Infrastructure.Registrations
                         if (stolen)
                         {
                             r.SetProperty(r => r.IsStolen, true);
-                            r.SetProperty(r => r.DateStolen, dateNow);
+                            r.SetProperty(r => r.DateStolen, now);
                         }
                         else
                         {
@@ -170,7 +183,7 @@ namespace BikeRegister.Infrastructure.Registrations
                             r.SetProperty(r => r.DateStolen, (DateTimeOffset?)null);
                         }
                         r.SetProperty(r => r.UpdatedBy, userId);
-                        r.SetProperty(r => r.UpdatedAt, dateNow);
+                        r.SetProperty(r => r.UpdatedAt, now);
                     });
                 return rowsAffected > 0;
             }

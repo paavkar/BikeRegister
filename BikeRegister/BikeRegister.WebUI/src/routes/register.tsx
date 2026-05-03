@@ -22,6 +22,7 @@ import {
     createFileRoute,
     Link as RouterLink,
     useNavigate,
+    useRouter,
 } from '@tanstack/react-router';
 import type { AuthResult, UserResult } from '../types';
 import { useAuthStore } from '../state/authStore';
@@ -42,6 +43,7 @@ function RegisterComponent() {
     const accessToken = useAuthStore((state) => state.accessToken);
     const navigate = useNavigate({ from: '/register' });
     const { t } = useTranslation();
+    const router = useRouter();
 
     const registerSchema = z
         .object({
@@ -86,6 +88,7 @@ function RegisterComponent() {
                     email: value.email,
                     userName: value.userName,
                     password: value.password,
+                    origin: router.origin,
                 },
                 path: { version: '1' },
             });
@@ -125,7 +128,7 @@ function RegisterComponent() {
         }
         if (!data) return;
         const result = data as unknown as UserResult;
-        setUser(result?.user ?? null);
+        setUser(result?.user!);
         navigate({ to: '/' });
     }, [data, error, accessToken]);
 

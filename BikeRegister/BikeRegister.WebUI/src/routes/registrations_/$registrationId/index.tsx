@@ -35,7 +35,6 @@ import {
     CardPreview,
     Spinner,
     Image,
-    type CarouselAnnouncerFunction,
     CarouselCard,
 } from '@fluentui/react-components';
 import { EditRegular } from '@fluentui/react-icons';

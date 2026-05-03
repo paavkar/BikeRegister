@@ -4,6 +4,7 @@ using BikeRegister.Application.ResultModels;
 using BikeRegister.Domain.Users;
 using BikeRegister.SharedKernel.Localization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
@@ -55,6 +56,12 @@ namespace BikeRegister.Infrastructure.Auth
                 };
             }
 
+            var userId = user.Id;
+            var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+            var url = $"{registerDto.Origin}/confirm-email/?userId=${userId}&code=${code}";
+
             var userRoleExists = await roleManager.RoleExistsAsync("User");
             if (!userRoleExists)
             {
@@ -63,7 +70,12 @@ namespace BikeRegister.Infrastructure.Auth
             await userManager.AddToRoleAsync(user, "User");
 
             platform = string.IsNullOrWhiteSpace(platform) ? "default" : platform;
-            return await GenerateAuthResultAsync(user, platform);
+
+            AuthResult authResult = await GenerateAuthResultAsync(user, platform);
+            // not possible with current circumstances
+            //await emailSender.SendConfirmationLinkAsync(user, user.Email, url);
+
+            return authResult;
         }
 
         public async Task<AuthResult> LoginAsync(LoginDto loginDto, string platform)
@@ -341,6 +353,38 @@ namespace BikeRegister.Infrastructure.Auth
             using RandomNumberGenerator rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomNumber);
             return Convert.ToBase64String(randomNumber);
+        }
+
+        public async Task<AuthResult> ConfirmEmailAsync(string userId, string code)
+        {
+            ApplicationUser? user = await userManager.FindByIdAsync(userId);
+
+            if (user is null)
+            {
+                return new AuthResult
+                {
+                    Succeeded = false,
+                    Errors = [localizer["UserNotFound"]]
+                };
+            }
+
+            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            IdentityResult result = await userManager.ConfirmEmailAsync(user, code);
+
+            return result.Succeeded
+                ? new AuthResult
+                {
+                    Succeeded = false,
+                    Errors = result.Errors.Select(e =>
+                     e.Code switch
+                     {
+                         _ => localizer[e.Code].ToString()
+                     })
+                }
+                : new AuthResult
+                {
+                    Succeeded = true,
+                };
         }
     }
 }

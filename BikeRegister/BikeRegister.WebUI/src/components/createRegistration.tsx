@@ -40,6 +40,7 @@ import type { CreateRegistrationDto, JwtRefreshRequest } from '../hey-api';
 import { useAuthStore } from '../state/authStore';
 import { useState, type ChangeEvent } from 'react';
 import { isPlainEmptyObject } from '../services/objectService';
+import { useMediaQuery } from '../services/useMediaQuery';
 
 export function CreateRegistration() {
     const accessToken = useAuthStore((state) => state.accessToken);
@@ -50,6 +51,7 @@ export function CreateRegistration() {
     const [markStolen, setMarkStolen] = useState(false);
     const login = useAuthStore((state) => state.login);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const isSmall = useMediaQuery('(max-width: 600px)');
 
     const localClient = createClient({
         baseUrl: 'https://localhost:26786/',
@@ -95,7 +97,9 @@ export function CreateRegistration() {
                 );
             });
         },
-        onSuccess: (_data) => {},
+        onSuccess: (_data) => {
+            document.getElementById('addRegisterClose')?.click();
+        },
     });
 
     async function refresh() {
@@ -133,10 +137,6 @@ export function CreateRegistration() {
         },
         onSuccess: (data) => {
             const result = data as unknown as RegistrationResult;
-            const formData = new FormData();
-            selectedFiles.forEach((file) => {
-                formData.append('images', file);
-            });
 
             try {
                 imageUploadMutation.mutate({
@@ -156,7 +156,9 @@ export function CreateRegistration() {
                     refresh();
                 }
             }
-            document.getElementById('addRegisterClose')?.click();
+            if (selectedFiles.length == 0) {
+                document.getElementById('addRegisterClose')?.click();
+            }
         },
     });
 
@@ -241,8 +243,9 @@ export function CreateRegistration() {
                 style={{
                     display: 'flex',
                     gap: '20px',
-                    flexWrap: 'wrap',
+                    overflowX: 'scroll',
                     padding: '20px',
+                    maxWidth: isSmall ? '17em' : '35em',
                 }}
             >
                 {selectedFiles.map((file, index) => {

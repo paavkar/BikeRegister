@@ -79,5 +79,13 @@
     "reportNotStolenSuccess": "Ei-varastetuksi raportointi onnistui",
     "refreshFailed": "Sisäänkirjautumisen päivitys epäonnistui",
     "registrationFetchFail": "Rekisteriotteen hakeminen epäonnistui",
-    "registrationNotFound": "404 - Rekisteriotetta ei löytynyt"
+    "registrationNotFound": "404 - Rekisteriotetta ei löytynyt",
+    "myRegistrations": "Minun rekisteriotteeni",
+    "noRegistrations": "Ei rekisteriotteita",
+    "actions": "Toiminnot",
+    "notStolen": "Ei varastettu",
+    "markedStolen": "Varastettu",
+    "yes": "Kyllä",
+    "no": "Ei",
+    "openDetails": "Avaa yksityiskohtaiset tiedot"
 }

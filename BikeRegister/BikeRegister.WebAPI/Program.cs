@@ -127,10 +127,10 @@ builder.Services.AddOpenApi(options =>
         // If the schema represents our list of files
         if (context.JsonTypeInfo.Type == typeof(List<IFormFile>))
         {
-            schema.Type = Microsoft.OpenApi.JsonSchemaType.Array;
-            schema.Items = new Microsoft.OpenApi.OpenApiSchema
+            schema.Type = JsonSchemaType.Array;
+            schema.Items = new OpenApiSchema
             {
-                Type = Microsoft.OpenApi.JsonSchemaType.String,
+                Type = JsonSchemaType.String,
                 Format = "binary"
             };
         }
@@ -139,24 +139,25 @@ builder.Services.AddOpenApi(options =>
 
     options.AddOperationTransformer((operation, context, cancellationToken) =>
     {
-        // Find the operation by ID or check if any parameter is IFormFile
-        if (context.Description.ActionDescriptor.EndpointMetadata.OfType<IEndpointNameMetadata>().Any(x => x.EndpointName == "uploadRegistrationImages"))
-        {
-            IDictionary<string, OpenApiMediaType>? content = operation.RequestBody.Content;
+        IDictionary<string, OpenApiMediaType>? content = operation.RequestBody?.Content;
+        if (content == null) return Task.CompletedTask;
 
-            // Remove the incorrect url-encoded content if it exists
+        // Check if this operation has any file parameters
+        var hasFile = context.Description.ActionDescriptor.Parameters
+            .Any(p => p.ParameterType == typeof(IFormFile) ||
+                      p.ParameterType == typeof(List<IFormFile>));
+
+        if (hasFile)
+        {
+            // 1. If it's url-encoded, move the schema to multipart
             if (content.ContainsKey("application/x-www-form-urlencoded"))
             {
                 IOpenApiSchema? schema = content["application/x-www-form-urlencoded"].Schema;
                 content.Remove("application/x-www-form-urlencoded");
-
-                // Add the correct multipart/form-data content
-                content.Add("multipart/form-data", new Microsoft.OpenApi.OpenApiMediaType
-                {
-                    Schema = schema
-                });
+                content["multipart/form-data"] = new OpenApiMediaType { Schema = schema };
             }
         }
+
         return Task.CompletedTask;
     });
 });
