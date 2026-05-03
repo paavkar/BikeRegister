@@ -8,205 +8,206 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as RegisterRouteImport } from './routes/register'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as ConfirmEmailRouteImport } from './routes/confirm-email'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProfileIndexRouteImport } from './routes/profile/index'
-import { Route as ProfileProfileIdRouteImport } from './routes/profile/$profileId'
-import { Route as RegistrationsRegistrationIdIndexRouteImport } from './routes/registrations_/$registrationId/index'
-import { Route as RegistrationsRegistrationIdEditRouteImport } from './routes/registrations_/$registrationId/edit'
+import { Route as rootRouteImport } from './routes/__root';
+import { Route as RegisterRouteImport } from './routes/register';
+import { Route as LoginRouteImport } from './routes/login';
+import { Route as ConfirmEmailRouteImport } from './routes/confirm-emaill';
+import { Route as IndexRouteImport } from './routes/index';
+import { Route as ProfileIndexRouteImport } from './routes/profile/index';
+import { Route as ProfileProfileIdRouteImport } from './routes/profile/$profileId';
+import { Route as RegistrationsRegistrationIdIndexRouteImport } from './routes/registrations_/$registrationId/index';
+import { Route as RegistrationsRegistrationIdEditRouteImport } from './routes/registrations_/$registrationId/edit';
 
 const RegisterRoute = RegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/register',
+    path: '/register',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/login',
+    path: '/login',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const ConfirmEmailRoute = ConfirmEmailRouteImport.update({
-  id: '/confirm-email',
-  path: '/confirm-email',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/confirm-email',
+    path: '/confirm-email',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/',
+    path: '/',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const ProfileIndexRoute = ProfileIndexRouteImport.update({
-  id: '/profile/',
-  path: '/profile/',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/profile/',
+    path: '/profile/',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const ProfileProfileIdRoute = ProfileProfileIdRouteImport.update({
-  id: '/profile/$profileId',
-  path: '/profile/$profileId',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/profile/$profileId',
+    path: '/profile/$profileId',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const RegistrationsRegistrationIdIndexRoute =
-  RegistrationsRegistrationIdIndexRouteImport.update({
-    id: '/registrations_/$registrationId/',
-    path: '/registrations/$registrationId/',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+    RegistrationsRegistrationIdIndexRouteImport.update({
+        id: '/registrations_/$registrationId/',
+        path: '/registrations/$registrationId/',
+        getParentRoute: () => rootRouteImport,
+    } as any);
 const RegistrationsRegistrationIdEditRoute =
-  RegistrationsRegistrationIdEditRouteImport.update({
-    id: '/registrations_/$registrationId/edit',
-    path: '/registrations/$registrationId/edit',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+    RegistrationsRegistrationIdEditRouteImport.update({
+        id: '/registrations_/$registrationId/edit',
+        path: '/registrations/$registrationId/edit',
+        getParentRoute: () => rootRouteImport,
+    } as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/confirm-email': typeof ConfirmEmailRoute
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/profile/$profileId': typeof ProfileProfileIdRoute
-  '/profile/': typeof ProfileIndexRoute
-  '/registrations/$registrationId/edit': typeof RegistrationsRegistrationIdEditRoute
-  '/registrations/$registrationId/': typeof RegistrationsRegistrationIdIndexRoute
+    '/': typeof IndexRoute;
+    '/confirm-email': typeof ConfirmEmailRoute;
+    '/login': typeof LoginRoute;
+    '/register': typeof RegisterRoute;
+    '/profile/$profileId': typeof ProfileProfileIdRoute;
+    '/profile/': typeof ProfileIndexRoute;
+    '/registrations/$registrationId/edit': typeof RegistrationsRegistrationIdEditRoute;
+    '/registrations/$registrationId/': typeof RegistrationsRegistrationIdIndexRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/confirm-email': typeof ConfirmEmailRoute
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/profile/$profileId': typeof ProfileProfileIdRoute
-  '/profile': typeof ProfileIndexRoute
-  '/registrations/$registrationId/edit': typeof RegistrationsRegistrationIdEditRoute
-  '/registrations/$registrationId': typeof RegistrationsRegistrationIdIndexRoute
+    '/': typeof IndexRoute;
+    '/confirm-email': typeof ConfirmEmailRoute;
+    '/login': typeof LoginRoute;
+    '/register': typeof RegisterRoute;
+    '/profile/$profileId': typeof ProfileProfileIdRoute;
+    '/profile': typeof ProfileIndexRoute;
+    '/registrations/$registrationId/edit': typeof RegistrationsRegistrationIdEditRoute;
+    '/registrations/$registrationId': typeof RegistrationsRegistrationIdIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/confirm-email': typeof ConfirmEmailRoute
-  '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
-  '/profile/$profileId': typeof ProfileProfileIdRoute
-  '/profile/': typeof ProfileIndexRoute
-  '/registrations_/$registrationId/edit': typeof RegistrationsRegistrationIdEditRoute
-  '/registrations_/$registrationId/': typeof RegistrationsRegistrationIdIndexRoute
+    __root__: typeof rootRouteImport;
+    '/': typeof IndexRoute;
+    '/confirm-email': typeof ConfirmEmailRoute;
+    '/login': typeof LoginRoute;
+    '/register': typeof RegisterRoute;
+    '/profile/$profileId': typeof ProfileProfileIdRoute;
+    '/profile/': typeof ProfileIndexRoute;
+    '/registrations_/$registrationId/edit': typeof RegistrationsRegistrationIdEditRoute;
+    '/registrations_/$registrationId/': typeof RegistrationsRegistrationIdIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/confirm-email'
-    | '/login'
-    | '/register'
-    | '/profile/$profileId'
-    | '/profile/'
-    | '/registrations/$registrationId/edit'
-    | '/registrations/$registrationId/'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/confirm-email'
-    | '/login'
-    | '/register'
-    | '/profile/$profileId'
-    | '/profile'
-    | '/registrations/$registrationId/edit'
-    | '/registrations/$registrationId'
-  id:
-    | '__root__'
-    | '/'
-    | '/confirm-email'
-    | '/login'
-    | '/register'
-    | '/profile/$profileId'
-    | '/profile/'
-    | '/registrations_/$registrationId/edit'
-    | '/registrations_/$registrationId/'
-  fileRoutesById: FileRoutesById
+    fileRoutesByFullPath: FileRoutesByFullPath;
+    fullPaths:
+        | '/'
+        | '/confirm-email'
+        | '/login'
+        | '/register'
+        | '/profile/$profileId'
+        | '/profile/'
+        | '/registrations/$registrationId/edit'
+        | '/registrations/$registrationId/';
+    fileRoutesByTo: FileRoutesByTo;
+    to:
+        | '/'
+        | '/confirm-email'
+        | '/login'
+        | '/register'
+        | '/profile/$profileId'
+        | '/profile'
+        | '/registrations/$registrationId/edit'
+        | '/registrations/$registrationId';
+    id:
+        | '__root__'
+        | '/'
+        | '/confirm-email'
+        | '/login'
+        | '/register'
+        | '/profile/$profileId'
+        | '/profile/'
+        | '/registrations_/$registrationId/edit'
+        | '/registrations_/$registrationId/';
+    fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  ConfirmEmailRoute: typeof ConfirmEmailRoute
-  LoginRoute: typeof LoginRoute
-  RegisterRoute: typeof RegisterRoute
-  ProfileProfileIdRoute: typeof ProfileProfileIdRoute
-  ProfileIndexRoute: typeof ProfileIndexRoute
-  RegistrationsRegistrationIdEditRoute: typeof RegistrationsRegistrationIdEditRoute
-  RegistrationsRegistrationIdIndexRoute: typeof RegistrationsRegistrationIdIndexRoute
+    IndexRoute: typeof IndexRoute;
+    ConfirmEmailRoute: typeof ConfirmEmailRoute;
+    LoginRoute: typeof LoginRoute;
+    RegisterRoute: typeof RegisterRoute;
+    ProfileProfileIdRoute: typeof ProfileProfileIdRoute;
+    ProfileIndexRoute: typeof ProfileIndexRoute;
+    RegistrationsRegistrationIdEditRoute: typeof RegistrationsRegistrationIdEditRoute;
+    RegistrationsRegistrationIdIndexRoute: typeof RegistrationsRegistrationIdIndexRoute;
 }
 
 declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterRouteImport
-      parentRoute: typeof rootRouteImport
+    interface FileRoutesByPath {
+        '/register': {
+            id: '/register';
+            path: '/register';
+            fullPath: '/register';
+            preLoaderRoute: typeof RegisterRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/login': {
+            id: '/login';
+            path: '/login';
+            fullPath: '/login';
+            preLoaderRoute: typeof LoginRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/confirm-email': {
+            id: '/confirm-email';
+            path: '/confirm-email';
+            fullPath: '/confirm-email';
+            preLoaderRoute: typeof ConfirmEmailRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/': {
+            id: '/';
+            path: '/';
+            fullPath: '/';
+            preLoaderRoute: typeof IndexRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/profile/': {
+            id: '/profile/';
+            path: '/profile';
+            fullPath: '/profile/';
+            preLoaderRoute: typeof ProfileIndexRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/profile/$profileId': {
+            id: '/profile/$profileId';
+            path: '/profile/$profileId';
+            fullPath: '/profile/$profileId';
+            preLoaderRoute: typeof ProfileProfileIdRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/registrations_/$registrationId/': {
+            id: '/registrations_/$registrationId/';
+            path: '/registrations/$registrationId';
+            fullPath: '/registrations/$registrationId/';
+            preLoaderRoute: typeof RegistrationsRegistrationIdIndexRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/registrations_/$registrationId/edit': {
+            id: '/registrations_/$registrationId/edit';
+            path: '/registrations/$registrationId/edit';
+            fullPath: '/registrations/$registrationId/edit';
+            preLoaderRoute: typeof RegistrationsRegistrationIdEditRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/confirm-email': {
-      id: '/confirm-email'
-      path: '/confirm-email'
-      fullPath: '/confirm-email'
-      preLoaderRoute: typeof ConfirmEmailRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile/': {
-      id: '/profile/'
-      path: '/profile'
-      fullPath: '/profile/'
-      preLoaderRoute: typeof ProfileIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile/$profileId': {
-      id: '/profile/$profileId'
-      path: '/profile/$profileId'
-      fullPath: '/profile/$profileId'
-      preLoaderRoute: typeof ProfileProfileIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/registrations_/$registrationId/': {
-      id: '/registrations_/$registrationId/'
-      path: '/registrations/$registrationId'
-      fullPath: '/registrations/$registrationId/'
-      preLoaderRoute: typeof RegistrationsRegistrationIdIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/registrations_/$registrationId/edit': {
-      id: '/registrations_/$registrationId/edit'
-      path: '/registrations/$registrationId/edit'
-      fullPath: '/registrations/$registrationId/edit'
-      preLoaderRoute: typeof RegistrationsRegistrationIdEditRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  ConfirmEmailRoute: ConfirmEmailRoute,
-  LoginRoute: LoginRoute,
-  RegisterRoute: RegisterRoute,
-  ProfileProfileIdRoute: ProfileProfileIdRoute,
-  ProfileIndexRoute: ProfileIndexRoute,
-  RegistrationsRegistrationIdEditRoute: RegistrationsRegistrationIdEditRoute,
-  RegistrationsRegistrationIdIndexRoute: RegistrationsRegistrationIdIndexRoute,
-}
+    IndexRoute: IndexRoute,
+    ConfirmEmailRoute: ConfirmEmailRoute,
+    LoginRoute: LoginRoute,
+    RegisterRoute: RegisterRoute,
+    ProfileProfileIdRoute: ProfileProfileIdRoute,
+    ProfileIndexRoute: ProfileIndexRoute,
+    RegistrationsRegistrationIdEditRoute: RegistrationsRegistrationIdEditRoute,
+    RegistrationsRegistrationIdIndexRoute:
+        RegistrationsRegistrationIdIndexRoute,
+};
 export const routeTree = rootRouteImport
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+    ._addFileChildren(rootRouteChildren)
+    ._addFileTypes<FileRouteTypes>();

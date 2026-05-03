@@ -138,26 +138,27 @@ export function CreateRegistration() {
         onSuccess: (data) => {
             const result = data as unknown as RegistrationResult;
 
-            try {
-                imageUploadMutation.mutate({
-                    body: {
-                        images: selectedFiles,
-                    },
-                    path: {
-                        version: '1',
-                        registrationId: result.registration!.id,
-                    },
-                    client: localClient,
-                });
-            } catch (error) {
-                var empty = isPlainEmptyObject(error);
-
-                if (empty) {
-                    refresh();
-                }
-            }
             if (selectedFiles.length == 0) {
                 document.getElementById('addRegisterClose')?.click();
+            } else {
+                try {
+                    imageUploadMutation.mutate({
+                        body: {
+                            images: selectedFiles,
+                        },
+                        path: {
+                            version: '1',
+                            registrationId: result.registration!.id,
+                        },
+                        client: localClient,
+                    });
+                } catch (error) {
+                    var empty = isPlainEmptyObject(error);
+
+                    if (empty) {
+                        refresh();
+                    }
+                }
             }
         },
     });
