@@ -33,9 +33,9 @@ import { DatePicker } from '@fluentui/react-datepicker-compat';
 import { useTranslation } from 'react-i18next';
 import { useForm } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
-import { createClient } from '../hey-api/client';
+import { createClient, type Client } from '../hey-api/client';
 import { getFullLocale } from '../services/localeService';
-import type { RegistrationResult, AuthResult } from '../types';
+import type { RegistrationResult, AuthResult, Registration } from '../types';
 import type { CreateRegistrationDto, JwtRefreshRequest } from '../hey-api';
 import { useAuthStore } from '../state/authStore';
 import { useState, type ChangeEvent } from 'react';
@@ -43,8 +43,8 @@ import { isPlainEmptyObject } from '../services/objectService';
 import { useMediaQuery } from '../services/useMediaQuery';
 
 export function CreateRegistration() {
-    const accessToken = useAuthStore((state) => state.accessToken);
-    const refreshToken = useAuthStore((state) => state.refreshToken);
+    let accessToken = useAuthStore((state) => state.accessToken);
+    let refreshToken = useAuthStore((state) => state.refreshToken);
     const toasterId = useId('toaster');
     const { t } = useTranslation();
     const { dispatchToast } = useToastController(toasterId);
@@ -52,15 +52,18 @@ export function CreateRegistration() {
     const login = useAuthStore((state) => state.login);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const isSmall = useMediaQuery('(max-width: 600px)');
+    const [createdRegistration, setCreatedRegistration] =
+        useState<Registration | null>(null);
 
-    const localClient = createClient({
-        baseUrl: 'https://localhost:26786/',
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Accept-Language': getFullLocale(),
-        },
-    });
-
+    function getClient(): Client {
+        return createClient({
+            baseUrl: 'https://localhost:26786/',
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Accept-Language': getFullLocale(),
+            },
+        });
+    }
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const filesArray = Array.from(e.target.files);
@@ -109,7 +112,7 @@ export function CreateRegistration() {
         await refreshMutation.mutateAsync({
             body: request,
             path: { version: '1' },
-            client: localClient,
+            client: getClient(),
         });
     }
 
@@ -138,6 +141,8 @@ export function CreateRegistration() {
         onSuccess: (data) => {
             const result = data as unknown as RegistrationResult;
 
+            setCreatedRegistration(result.registration);
+
             if (selectedFiles.length == 0) {
                 document.getElementById('addRegisterClose')?.click();
             } else {
@@ -150,7 +155,7 @@ export function CreateRegistration() {
                             version: '1',
                             registrationId: result.registration!.id,
                         },
-                        client: localClient,
+                        client: getClient(),
                     });
                 } catch (error) {
                     var empty = isPlainEmptyObject(error);
@@ -165,11 +170,24 @@ export function CreateRegistration() {
 
     async function addRequest(value: CreateRegistrationDto) {
         try {
-            await addMutation.mutateAsync({
-                body: value,
-                path: { version: '1' },
-                client: localClient,
-            });
+            if (!createdRegistration) {
+                await addMutation.mutateAsync({
+                    body: value,
+                    path: { version: '1' },
+                    client: getClient(),
+                });
+            } else {
+                await imageUploadMutation.mutateAsync({
+                    body: {
+                        images: selectedFiles,
+                    },
+                    path: {
+                        version: '1',
+                        registrationId: createdRegistration.id,
+                    },
+                    client: getClient(),
+                });
+            }
         } catch (error) {
             var empty = isPlainEmptyObject(error);
             /**
@@ -207,6 +225,8 @@ export function CreateRegistration() {
         onSuccess: (data) => {
             const result = data as unknown as AuthResult;
             login(result.accessToken!, result.refreshToken!);
+            accessToken = result.accessToken;
+            refreshToken = result.refreshToken!;
             document.getElementById('addRegister')?.click();
         },
     });
@@ -218,8 +238,8 @@ export function CreateRegistration() {
             modelYear: null,
             frameSize: 20,
             frameSizeUnit: 0,
-            primaryColour: '',
-            secondaryColour: '',
+            primaryColour: '#000000',
+            secondaryColour: '#000000',
             serialNumber: '',
             city: '',
             district: null,
