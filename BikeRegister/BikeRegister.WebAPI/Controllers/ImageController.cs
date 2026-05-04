@@ -24,8 +24,24 @@ namespace BikeRegister.WebAPI.Controllers
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadRegistrationImages([FromForm] List<IFormFile> images, string registrationId)
         {
-            if (images == null || images.Count == 0) return BadRequest("NoImages");
-            if (images.Count > 10) return BadRequest("Max10Images");
+            if (images == null || images.Count == 0)
+            {
+                return BadRequest(new ImageResult
+                {
+                    Succeeded = false,
+                    Errors = [localizer["NoImages"]]
+                });
+            }
+
+            if (images.Count > 10)
+            {
+                return BadRequest(new ImageResult
+                {
+                    Succeeded = false,
+                    Errors = [localizer["Max10Images"]]
+                });
+            }
+
             List<SaveImageDto> imagesList = [];
 
             foreach (IFormFile file in images)
@@ -58,8 +74,23 @@ namespace BikeRegister.WebAPI.Controllers
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadProfilePhoto([FromForm] List<IFormFile> images, string userId)
         {
-            if (images == null || images.Count == 0) return BadRequest("NoImages");
-            if (images.Count > 1) return BadRequest("Max1Image");
+            if (images == null || images.Count == 0)
+            {
+                return BadRequest(new ImageResult
+                {
+                    Succeeded = false,
+                    Errors = [localizer["NoImages"]]
+                });
+            }
+
+            if (images.Count > 1)
+            {
+                return BadRequest(new ImageResult
+                {
+                    Succeeded = false,
+                    Errors = [localizer["Max1Image"]]
+                });
+            }
 
             List<SaveProfilePhotoDto> imagesList = [];
             foreach (IFormFile image in images)

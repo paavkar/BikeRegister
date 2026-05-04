@@ -22,8 +22,6 @@ namespace BikeRegister.Infrastructure.Images
     {
         readonly string ConnectionString = configuration["AzureBlobStorage:ConnectionString"]!;
         readonly string ContainerName = configuration["AzureBlobStorage:ContainerName"]!;
-        readonly string AccountName = configuration["AzureBlobStorage:AccountName"]!;
-        readonly string AccountKey = configuration["AzureBlobStorage:AccountKey"]!;
 
         private BlobContainerClient GetContainerClient()
         {
